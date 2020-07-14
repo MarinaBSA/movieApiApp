@@ -12,6 +12,8 @@
 		F1A3512024BD20830023F8CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A3511F24BD20830023F8CC /* ViewController.swift */; };
 		F1A3512524BD20860023F8CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1A3512424BD20860023F8CC /* Assets.xcassets */; };
 		F1A3512824BD20860023F8CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1A3512624BD20860023F8CC /* LaunchScreen.storyboard */; };
+		F1A3513024BD23AF0023F8CC /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A3512F24BD23AF0023F8CC /* Movie.swift */; };
+		F1A3513224BD2D860023F8CC /* ApiResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A3513124BD2D860023F8CC /* ApiResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		F1A3512424BD20860023F8CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F1A3512724BD20860023F8CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F1A3512924BD20860023F8CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F1A3512F24BD23AF0023F8CC /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		F1A3513124BD2D860023F8CC /* ApiResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResult.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +61,8 @@
 				F1A3511B24BD20830023F8CC /* AppDelegate.swift */,
 				F1A3511D24BD20830023F8CC /* SceneDelegate.swift */,
 				F1A3511F24BD20830023F8CC /* ViewController.swift */,
+				F1A3512F24BD23AF0023F8CC /* Movie.swift */,
+				F1A3513124BD2D860023F8CC /* ApiResult.swift */,
 				F1A3512424BD20860023F8CC /* Assets.xcassets */,
 				F1A3512624BD20860023F8CC /* LaunchScreen.storyboard */,
 				F1A3512924BD20860023F8CC /* Info.plist */,
@@ -136,6 +142,8 @@
 			files = (
 				F1A3512024BD20830023F8CC /* ViewController.swift in Sources */,
 				F1A3511C24BD20830023F8CC /* AppDelegate.swift in Sources */,
+				F1A3513224BD2D860023F8CC /* ApiResult.swift in Sources */,
+				F1A3513024BD23AF0023F8CC /* Movie.swift in Sources */,
 				F1A3511E24BD20830023F8CC /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
