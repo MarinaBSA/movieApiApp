@@ -1,5 +1,5 @@
 //
-//  Movie.swift
+//  ApiResult.swift
 //  movieApi
 //
 //  Created by Marina Beatriz Santana de Aguiar on 14.07.20.
@@ -8,12 +8,9 @@
 
 import Foundation
 
-struct Movie: Codable {
+struct ApiResult: Codable {
     #warning("change variables cases")
-    let Title: String
-    let Year: String?
-    let imdbID: String
-    #warning("change line below")
-    let `Type`: String
-    let Poster: String?
+    var Search: [Media]
+    var totalResults: String
+    var Response: String
 }

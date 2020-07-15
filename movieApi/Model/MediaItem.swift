@@ -1,5 +1,5 @@
 //
-//  ApiResult.swift
+//  CellItem.swift
 //  movieApi
 //
 //  Created by Marina Beatriz Santana de Aguiar on 14.07.20.
@@ -8,9 +8,11 @@
 
 import Foundation
 
-struct ApiResult: Codable {
-    #warning("change variables cases")
-    var Search: [Movie]
-    var totalResults: String
-    var Response: String
+struct MediaItem: Hashable {
+    let title: String
+    let plot: String?
+    let year: String?
+    let id: String
+    let uuid = UUID()
+    //let poster: UIImage
 }
