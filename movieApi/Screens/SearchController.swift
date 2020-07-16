@@ -114,7 +114,7 @@ class SearchController: UIViewController {
     }
     
     @objc func removeResultsFromPage() {
-        let alert = UIAlertController(title: "Warning", message: "Do you want to erase all results", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Warning", message: "Do you want to erase the results from the screen?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .destructive) {
             [weak self] _ in
             guard let self = self else { return }
