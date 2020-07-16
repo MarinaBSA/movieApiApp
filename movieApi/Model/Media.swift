@@ -6,7 +6,7 @@
 //  Copyright © 2020 Marina Beatriz Santana de Aguiar. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct Media: Codable {
     #warning("change variables cases")

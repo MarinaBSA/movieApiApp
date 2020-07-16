@@ -6,7 +6,7 @@
 //  Copyright © 2020 Marina Beatriz Santana de Aguiar. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct MediaItem: Hashable {
     let title: String
@@ -14,5 +14,5 @@ struct MediaItem: Hashable {
     let year: String?
     let id: String
     let uuid = UUID()
-    //let poster: UIImage
+    let poster: String?
 }
