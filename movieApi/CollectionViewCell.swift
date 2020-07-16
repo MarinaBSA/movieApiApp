@@ -21,6 +21,7 @@ class CollectionViewCell: UICollectionViewCell {
             yearLabel.text = year
         }
     }
+    var spinner: UIActivityIndicatorView!
     
     let titleLabel = UILabel()
     let yearLabel = UILabel()
@@ -36,32 +37,51 @@ class CollectionViewCell: UICollectionViewCell {
     }
     
     func setLabels(title: String, year: String?, imageURL: String?) {
+        guard spinner != nil else { return }
         if let passedURL = imageURL {
             if let cachedImage = SearchController.imageCache.object(forKey: NSString(string: passedURL)) {
                 // image already cached
                 imageView.image = cachedImage
+                self.spinner.stopAnimating()
                 return
             }
             // image not cached -- cache it
-            if let imageURL = URL(string: passedURL) {
+            getImage(fromURL: passedURL) {
+                [weak self] compressedImage in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    guard let image = compressedImage  else {
+                        self.imageView.image = UIImage(systemName: Images.placeholder.rawValue)
+                        self.imageView.tintColor = .label
+                        self.spinner.stopAnimating()
+                        return
+                    }
+                    self.imageView.image = image
+                    self.spinner.stopAnimating()
+                }
+            }
+            self.title = title
+            self.year = year ?? "Unknown"
+        }
+    }
+    
+    private func getImage(fromURL url: String, completion: @escaping (UIImage?) -> ()) {
+        DispatchQueue.global(qos: .background).async {
+            if let imageURL = URL(string: url) {
                 do {
                     let data = try Data(contentsOf: imageURL)
                     if let compressedImageData = UIImage(data: data)?.jpegData(compressionQuality: 0.5), let compressedImage = UIImage(data: compressedImageData) {
-                        SearchController.imageCache.setObject(compressedImage, forKey: NSString(string: passedURL))
-                        imageView.image = UIImage(data: compressedImageData)
+                        SearchController.imageCache.setObject(compressedImage, forKey: NSString(string: url))
+                        completion(compressedImage)
                     }
                 } catch {
                     print("Cannot get image from url. Error: \(error.localizedDescription)")
-                    imageView.image = UIImage(systemName: "bandage")
-                    imageView.tintColor = .brown
+                    completion(nil)
                 }
             }
         }
-        #warning("in case there is no image(test: covid) -- show placeholder image ")
-        
-        self.title = title
-        self.year = year ?? "Unknown"
     }
+    
     
     private func configure() {
         backgroundColor = .secondarySystemBackground
@@ -118,6 +138,4 @@ class CollectionViewCell: UICollectionViewCell {
         gradientLayer.endPoint = CGPoint(x: gradientLayer.frame.width/2, y: 1)
         return gradientLayer
     }
-    
-
 }

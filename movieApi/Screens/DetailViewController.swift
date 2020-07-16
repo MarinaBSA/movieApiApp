@@ -51,12 +51,12 @@ class DetailViewController: UIViewController {
                     }
                 } catch {
                     print("Cannot get image from url. Error: \(error.localizedDescription)")
-                    imageView.image = UIImage(systemName: "camera.circle.fill")
+                    imageView.image = UIImage(systemName: Images.placeholder.rawValue)
                     imageView.tintColor = .label
                 }
             }
         }
-        imageView.image = UIImage(systemName: "camera.circle.fill")
+        imageView.image = UIImage(systemName: Images.placeholder.rawValue)
         imageView.tintColor = .label
     }
     
@@ -73,22 +73,18 @@ class DetailViewController: UIViewController {
         view.addSubview(plotLabel)
         view.addSubview(backButton)
         
-        if let url = URL(string: imageURL!) {
-            do {
-                setImage()
-                imageView.translatesAutoresizingMaskIntoConstraints = false
-                imageView.clipsToBounds = true
-                imageView.contentMode = .center
-                imageView.layer.masksToBounds = true
-                imageView.backgroundColor = .secondarySystemBackground
-                
-                let alphaLayer = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height * 0.5))
-                alphaLayer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.15)
-                imageView.addSubview(alphaLayer)
-                view.addSubview(imageView)
-            } catch {
-                print("Cannot get image for this media. Error: \(error.localizedDescription)")
-            }
+        if let _ = URL(string: imageURL!) {
+            setImage()
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.clipsToBounds = true
+            imageView.contentMode = .center
+            imageView.layer.masksToBounds = true
+            imageView.backgroundColor = .secondarySystemBackground
+            
+            let alphaLayer = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height * 0.5))
+            alphaLayer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.15)
+            imageView.addSubview(alphaLayer)
+            view.addSubview(imageView)
         }
         
         if let mediaTitle = self.mediaTitle {
@@ -138,7 +134,6 @@ class DetailViewController: UIViewController {
             plotLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
-    
     
     @objc private func dismissDetailVC() {
         dismiss(animated: true)

@@ -13,8 +13,6 @@ struct Media: Codable {
     let Title: String
     let Year: String
     let imdbID: String
-    #warning("change line below")
-    let `Type`: String
     let Poster: String?
     let Plot: String?
 }

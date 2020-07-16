@@ -17,6 +17,12 @@
 		F1B1CB0924BE592C00C0E7FD /* MediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B1CB0824BE592C00C0E7FD /* MediaItem.swift */; };
 		F1B1CB0B24BE617A00C0E7FD /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B1CB0A24BE617A00C0E7FD /* CollectionViewCell.swift */; };
 		F1B1CB1424BF56AD00C0E7FD /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B1CB1324BF56AD00C0E7FD /* DetailViewController.swift */; };
+		F1B1CB1B24C0A78F00C0E7FD /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B1CB1A24C0A78F00C0E7FD /* UIView+Ext.swift */; };
+		F1B1CB1F24C0C03900C0E7FD /* UISearchBar+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B1CB1E24C0C03900C0E7FD /* UISearchBar+Ext.swift */; };
+		F1B1CB2124C0C04300C0E7FD /* UISearchController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B1CB2024C0C04300C0E7FD /* UISearchController+Ext.swift */; };
+		F1B1CB2324C0C0CD00C0E7FD /* UICollectionView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B1CB2224C0C0CD00C0E7FD /* UICollectionView+Ext.swift */; };
+		F1B1CB2624C0C19A00C0E7FD /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B1CB2524C0C19A00C0E7FD /* NetworkHandler.swift */; };
+		F1B1CB2B24C0C5D200C0E7FD /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B1CB2A24C0C5D100C0E7FD /* Images.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +38,12 @@
 		F1B1CB0824BE592C00C0E7FD /* MediaItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaItem.swift; sourceTree = "<group>"; };
 		F1B1CB0A24BE617A00C0E7FD /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		F1B1CB1324BF56AD00C0E7FD /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		F1B1CB1A24C0A78F00C0E7FD /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
+		F1B1CB1E24C0C03900C0E7FD /* UISearchBar+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+Ext.swift"; sourceTree = "<group>"; };
+		F1B1CB2024C0C04300C0E7FD /* UISearchController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchController+Ext.swift"; sourceTree = "<group>"; };
+		F1B1CB2224C0C0CD00C0E7FD /* UICollectionView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Ext.swift"; sourceTree = "<group>"; };
+		F1B1CB2524C0C19A00C0E7FD /* NetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandler.swift; sourceTree = "<group>"; };
+		F1B1CB2A24C0C5D100C0E7FD /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +76,9 @@
 		F1A3511A24BD20830023F8CC /* movieApi */ = {
 			isa = PBXGroup;
 			children = (
+				F1B1CB2724C0C5AB00C0E7FD /* Enums */,
+				F1B1CB2424C0C19100C0E7FD /* Network */,
+				F1B1CB1924C0A77F00C0E7FD /* Extensions */,
 				F1B1CB1024BE8AFE00C0E7FD /* Views */,
 				F1B1CB0F24BE630900C0E7FD /* Model */,
 				F1B1CB0E24BE62EC00C0E7FD /* Screens */,
@@ -109,6 +124,33 @@
 			children = (
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		F1B1CB1924C0A77F00C0E7FD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F1B1CB1A24C0A78F00C0E7FD /* UIView+Ext.swift */,
+				F1B1CB1E24C0C03900C0E7FD /* UISearchBar+Ext.swift */,
+				F1B1CB2024C0C04300C0E7FD /* UISearchController+Ext.swift */,
+				F1B1CB2224C0C0CD00C0E7FD /* UICollectionView+Ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F1B1CB2424C0C19100C0E7FD /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F1B1CB2524C0C19A00C0E7FD /* NetworkHandler.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F1B1CB2724C0C5AB00C0E7FD /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				F1B1CB2A24C0C5D100C0E7FD /* Images.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,10 +226,16 @@
 				F1B1CB0924BE592C00C0E7FD /* MediaItem.swift in Sources */,
 				F1A3512024BD20830023F8CC /* SearchController.swift in Sources */,
 				F1A3511C24BD20830023F8CC /* AppDelegate.swift in Sources */,
+				F1B1CB1F24C0C03900C0E7FD /* UISearchBar+Ext.swift in Sources */,
 				F1B1CB0B24BE617A00C0E7FD /* CollectionViewCell.swift in Sources */,
 				F1A3513224BD2D860023F8CC /* ApiResult.swift in Sources */,
 				F1A3513024BD23AF0023F8CC /* Media.swift in Sources */,
+				F1B1CB2B24C0C5D200C0E7FD /* Images.swift in Sources */,
+				F1B1CB1B24C0A78F00C0E7FD /* UIView+Ext.swift in Sources */,
+				F1B1CB2624C0C19A00C0E7FD /* NetworkHandler.swift in Sources */,
+				F1B1CB2124C0C04300C0E7FD /* UISearchController+Ext.swift in Sources */,
 				F1A3511E24BD20830023F8CC /* SceneDelegate.swift in Sources */,
+				F1B1CB2324C0C0CD00C0E7FD /* UICollectionView+Ext.swift in Sources */,
 				F1B1CB1424BF56AD00C0E7FD /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
