@@ -11,7 +11,7 @@ import UIKit
 extension SearchController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedMedia = cells[indexPath.item]
-        let spinner = collection.startSpinner(nil)
+        let spinner = collectionView.cellForItem(at: indexPath)!.startSpinner(nil)
         self.networkHandler.getMedia(id: selectedMedia.id) {
             [weak self] result in
             guard let self = self else { return }

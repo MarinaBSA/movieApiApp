@@ -31,6 +31,11 @@ class SearchController: UIViewController {
     
     private func setupSearchController() {
         navigationController?.navigationBar.prefersLargeTitles = true
+        let removeButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeResultsFromPage))
+        navigationItem.setRightBarButton(removeButton, animated: true)
+
+
+        removeButton.tintColor = UIColor.label
         navigationItem.title = "Search"
         navigationItem.searchController = searchController
         navigationItem.searchController?.delegate = self
@@ -89,7 +94,7 @@ class SearchController: UIViewController {
         snapshot = createCollectionViewsSnapshot(cells: cells)
         updateCollectionView()
     }
-    
+ 
     func updateResults(searchText: String) {
         let spinner = view.startSpinner(nil)
         networkHandler.getAllMedia(withTitle: searchText, fromYear: nil) {
@@ -107,6 +112,21 @@ class SearchController: UIViewController {
             }
         }
     }
+    
+    @objc func removeResultsFromPage() {
+        let alert = UIAlertController(title: "Warning", message: "Do you want to erase all results", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .destructive) {
+            [weak self] _ in
+            guard let self = self else { return }
+            guard !self.cells.isEmpty else { return }
+            self.cells.removeAll(keepingCapacity: true)
+            self.snapshot = self.createCollectionViewsSnapshot(cells: self.cells)
+            self.updateCollectionView()
+        })
+        alert.addAction(UIAlertAction(title: "No", style: .cancel))
+        present(alert, animated: true)
+     }
+     
 }
 
 
