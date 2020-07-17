@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F169F6E124C1EB1A00CA3870 /* MovieApiAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F169F6E024C1EB1A00CA3870 /* MovieApiAlert.swift */; };
 		F169F6E324C2086700CA3870 /* MovieApiAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F169F6E224C2086700CA3870 /* MovieApiAlertVC.swift */; };
-		F169F6E824C231EF00CA3870 /* AlertButtonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F169F6E724C231EF00CA3870 /* AlertButtonProtocol.swift */; };
 		F169F6EA24C2334A00CA3870 /* SearchController+Pr.swift in Sources */ = {isa = PBXBuildFile; fileRef = F169F6E924C2334A00CA3870 /* SearchController+Pr.swift */; };
 		F169F6EB24C234EA00CA3870 /* SearchController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B1CB2024C0C04300C0E7FD /* SearchController+Ext.swift */; };
 		F1A3511C24BD20830023F8CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A3511B24BD20830023F8CC /* AppDelegate.swift */; };
@@ -30,9 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F169F6E024C1EB1A00CA3870 /* MovieApiAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieApiAlert.swift; sourceTree = "<group>"; };
 		F169F6E224C2086700CA3870 /* MovieApiAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieApiAlertVC.swift; sourceTree = "<group>"; };
-		F169F6E724C231EF00CA3870 /* AlertButtonProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertButtonProtocol.swift; sourceTree = "<group>"; };
 		F169F6E924C2334A00CA3870 /* SearchController+Pr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchController+Pr.swift"; sourceTree = "<group>"; };
 		F1A3511824BD20830023F8CC /* movieApi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = movieApi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1A3511B24BD20830023F8CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,7 +64,6 @@
 		F169F6E424C2265000CA3870 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F169F6E024C1EB1A00CA3870 /* MovieApiAlert.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -79,14 +74,6 @@
 				F169F6E224C2086700CA3870 /* MovieApiAlertVC.swift */,
 			);
 			path = "View Controllers";
-			sourceTree = "<group>";
-		};
-		F169F6E624C231DA00CA3870 /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				F169F6E724C231EF00CA3870 /* AlertButtonProtocol.swift */,
-			);
-			path = Protocol;
 			sourceTree = "<group>";
 		};
 		F1A3510F24BD20830023F8CC = {
@@ -108,7 +95,6 @@
 		F1A3511A24BD20830023F8CC /* movieApi */ = {
 			isa = PBXGroup;
 			children = (
-				F169F6E624C231DA00CA3870 /* Protocol */,
 				F1B1CB2724C0C5AB00C0E7FD /* Enums */,
 				F1B1CB2424C0C19100C0E7FD /* Network */,
 				F1B1CB1924C0A77F00C0E7FD /* Extensions */,
@@ -265,7 +251,6 @@
 				F169F6EB24C234EA00CA3870 /* SearchController+Ext.swift in Sources */,
 				F1A3511C24BD20830023F8CC /* AppDelegate.swift in Sources */,
 				F1B1CB1F24C0C03900C0E7FD /* UISearchBar+Ext.swift in Sources */,
-				F169F6E124C1EB1A00CA3870 /* MovieApiAlert.swift in Sources */,
 				F1B1CB0B24BE617A00C0E7FD /* CollectionViewCell.swift in Sources */,
 				F1A3513224BD2D860023F8CC /* ApiResult.swift in Sources */,
 				F1A3513024BD23AF0023F8CC /* Media.swift in Sources */,
@@ -274,7 +259,6 @@
 				F1B1CB1B24C0A78F00C0E7FD /* UIView+Ext.swift in Sources */,
 				F1B1CB2624C0C19A00C0E7FD /* NetworkHandler.swift in Sources */,
 				F1A3511E24BD20830023F8CC /* SceneDelegate.swift in Sources */,
-				F169F6E824C231EF00CA3870 /* AlertButtonProtocol.swift in Sources */,
 				F1B1CB2324C0C0CD00C0E7FD /* UICollectionView+Ext.swift in Sources */,
 				F1B1CB1424BF56AD00C0E7FD /* DetailViewController.swift in Sources */,
 			);

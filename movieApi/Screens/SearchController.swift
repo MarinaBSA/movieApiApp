@@ -113,8 +113,6 @@ class SearchController: UIViewController {
             [weak self] result in
             guard let self = self else { return }
             guard let apiResult = result else {
-                print("Cannot get all media from the API")
-                #warning("show alert messaging about an network error")
                 self.showNetworkErrorAlert()
                 DispatchQueue.main.sync {
                     spinner.stopAnimating()
@@ -131,9 +129,8 @@ class SearchController: UIViewController {
     
     private func showNetworkErrorAlert() {
         DispatchQueue.main.async {
-            let errorAlertVC =  MovieApiAlertVC(withTitle: "Error", withMessage: "Something went wrong. Please check your internet connection or try again later.", withConfirmationButtonText: "Ok", withCancelButtonText: nil, withDelegate: self)
-            let errorAlertView = MovieApiAlertView(frame: self.view.frame, alert: errorAlertVC)
-            self.view.addSubview(errorAlertView)
+            let errorAlertVC =  MovieApiAlertVC(withTitle: "Error", withMessage: "Something went wrong. Please check your internet connection or try again later.", withConfirmationButtonText: "Ok", withCancelButtonText: nil)
+            self.present(errorAlertVC, animated: true)
         }
     }
     

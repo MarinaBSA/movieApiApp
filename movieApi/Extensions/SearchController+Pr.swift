@@ -8,11 +8,3 @@
 
 import Foundation
 
-extension SearchController: AlertButtonProcol {
-    func confirmAction() {
-        self.view.removeFromSuperview()
-    }
-    
-    func cancelAction() {}
-    
-}

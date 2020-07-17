@@ -26,11 +26,11 @@ class MovieApiAlertView: UIView {
     }
     
     private func setupView() {
+        alert.view.translatesAutoresizingMaskIntoConstraints = false
         let computedColor =  currentInterfaceStyleIsDark() ? UIColor(red: 0.2 , green: 0.2, blue: 0.2, alpha: 0.7) : UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
         backgroundColor = computedColor
         addSubview(alert.view)
-        alert.view.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             alert.view.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             alert.view.centerXAnchor.constraint(equalTo: self.centerXAnchor),

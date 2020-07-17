@@ -13,18 +13,17 @@ class MovieApiAlertVC: UIViewController {
     let alertMessage: String
     let alertConfirmationButtonText: String
     let alertCancelButtonText: String?
-    let delegate: AlertButtonProcol!
     
+    let alertView = UIView()
     let alertTitleLabel = UILabel()
     let alertMessageLabel = UILabel()
     let alertConfirmationButton = UIButton()
         
-    init(withTitle title: String, withMessage message: String, withConfirmationButtonText confirmationButtonText: String, withCancelButtonText CancelButtonText: String?, withDelegate delegate: AlertButtonProcol ) {
+    init(withTitle title: String, withMessage message: String, withConfirmationButtonText confirmationButtonText: String, withCancelButtonText CancelButtonText: String?) {
         self.alertTitle = title
         self.alertMessage = message
         self.alertConfirmationButtonText = confirmationButtonText
         self.alertCancelButtonText = CancelButtonText
-        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
         configure()
     }
@@ -34,34 +33,36 @@ class MovieApiAlertVC: UIViewController {
     }
     
     private func configure() {
+        let computedColor =  currentInterfaceStyleIsDark() ? UIColor(red: 0.2 , green: 0.2, blue: 0.2, alpha: 0.7) : UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
+        view.backgroundColor = computedColor
+        modalPresentationStyle = .overFullScreen
+        modalTransitionStyle = .crossDissolve
         setupAlert()
         layoutAlert()
-        view.backgroundColor = .secondarySystemBackground
     }
     
     private func setupAlert() {
+        setupAlertView()
         setupTitleLabel()
         setupMessageLabel()
         setupConfirmationButton()
     }
     
     private func layoutAlert() {
-        layoutView()
+        layoutAlertView()
         layoutTitleLabel()
         layoutMessageLabel()
         layoutConfirmationButton()
     }
     
-    private func layoutView() {
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemBackground
-        view.layer.borderWidth = 1.5
-        view.layer.cornerRadius = 10
-        view.layer.borderColor = UIColor.label.cgColor
-        NSLayoutConstraint.activate([
-            view.heightAnchor.constraint(equalToConstant: 225),
-            view.widthAnchor.constraint(equalToConstant: 250),
-        ])
+    private func setupAlertView() {
+        view.addSubview(alertView)
+        alertView.translatesAutoresizingMaskIntoConstraints = false
+        alertView.backgroundColor = .systemBackground
+        alertView.layer.borderWidth = 1.5
+        alertView.layer.cornerRadius = 10
+        alertView.layer.borderColor = UIColor.label.cgColor
+        
     }
     
     private func setupTitleLabel() {
@@ -96,35 +97,53 @@ class MovieApiAlertVC: UIViewController {
         alertConfirmationButton.addTarget(self, action: #selector(dismissAlert), for: .touchUpInside)
     }
     
+    private func layoutAlertView() {
+        NSLayoutConstraint.activate([
+            alertView.heightAnchor.constraint(equalToConstant: 225),
+            alertView.widthAnchor.constraint(equalToConstant: 250),
+            alertView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            alertView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        ])
+    }
   
     private func layoutTitleLabel() {
         NSLayoutConstraint.activate([
-            alertTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            alertTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            alertTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            alertTitleLabel.topAnchor.constraint(equalTo: alertView.topAnchor, constant: 20),
+            alertTitleLabel.leadingAnchor.constraint(equalTo: alertView.leadingAnchor, constant: 20),
+            alertTitleLabel.trailingAnchor.constraint(equalTo: alertView.trailingAnchor, constant: -20),
         ])
     }
     
     private func layoutMessageLabel() {
         NSLayoutConstraint.activate([
             alertMessageLabel.topAnchor.constraint(equalTo: alertTitleLabel.bottomAnchor, constant: 20),
-            alertMessageLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            alertMessageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            alertMessageLabel.leadingAnchor.constraint(equalTo: alertView.leadingAnchor, constant: 20),
+            alertMessageLabel.trailingAnchor.constraint(equalTo: alertView.trailingAnchor, constant: -20),
         ])
     }
     
     private func layoutConfirmationButton() {
         NSLayoutConstraint.activate([
-            alertConfirmationButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            alertConfirmationButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            alertConfirmationButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            alertConfirmationButton.widthAnchor.constraint(equalTo: view.widthAnchor),
+            alertConfirmationButton.bottomAnchor.constraint(equalTo: alertView.bottomAnchor),
+            alertConfirmationButton.leadingAnchor.constraint(equalTo: alertView.leadingAnchor),
+            alertConfirmationButton.trailingAnchor.constraint(equalTo: alertView.trailingAnchor),
+            alertConfirmationButton.widthAnchor.constraint(equalTo: alertView.widthAnchor),
             alertConfirmationButton.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
     
     @objc func dismissAlert() {
-        delegate.confirmAction()
+        dismiss(animated: true)
     }
-    
+
+
+    private func currentInterfaceStyleIsDark() -> Bool {
+        switch traitCollection.userInterfaceStyle {
+            case .dark:
+                return true
+            default:
+                return false
+        }
+    }
+
 }
