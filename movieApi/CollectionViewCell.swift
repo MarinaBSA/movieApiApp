@@ -36,6 +36,22 @@ class CollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func configure() {
+        backgroundColor = .secondarySystemBackground
+        addSubview(imageView)
+        addSubview(titleLabel)
+        addSubview(yearLabel)
+        
+        configureTitleLabel()
+        configureYearLabel()
+        configureImageView()
+        configureContentView()
+                
+        layoutTitleLabel()
+        layoutYearLabel()
+        layoutImageView()
+    }
+    
     func setLabels(title: String, year: String?, imageURL: String?) {
         guard spinner != nil else { return }
         if let passedURL = imageURL {
@@ -82,52 +98,59 @@ class CollectionViewCell: UICollectionViewCell {
         }
     }
     
-    
-    private func configure() {
-        backgroundColor = .secondarySystemBackground
-        addSubview(imageView)
-        addSubview(titleLabel)
-        addSubview(yearLabel)
-        
+    private func configureTitleLabel() {
         titleLabel.numberOfLines = 0
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textColor = .label
         titleLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         titleLabel.adjustsFontForContentSizeCategory = true
-        
+    }
+    
+    private func configureYearLabel() {
         yearLabel.translatesAutoresizingMaskIntoConstraints = false
         yearLabel.textColor = .label
         yearLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         yearLabel.adjustsFontForContentSizeCategory = true
-        
+    }
+    
+    private func configureImageView() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 20
-        
+    }
+    
+    private func configureContentView() {
         contentView.layer.addSublayer(setupGradientLayer())
         contentView.layer.borderWidth = 0.25
         contentView.layer.cornerRadius = 20
         contentView.layer.masksToBounds = true
-        
-        #warning("make this code great again -- repetitive padding (10/-10)")
-        
+    }
+    
+    private func layoutTitleLabel() {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-                      
+        ])
+    }
+    
+    private func layoutYearLabel() {
+        NSLayoutConstraint.activate([
             yearLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
             yearLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             yearLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            
+        ])
+    }
+    
+    private func layoutImageView() {
+        NSLayoutConstraint.activate([
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.7),
             imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
         ])
-        
     }
     
     private func setupGradientLayer() -> CAGradientLayer {

@@ -25,17 +25,12 @@ class SearchController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        setupNavigationBar()
         setupSearchController()
         setupCollectionView()
     }
     
     private func setupSearchController() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        let removeButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeResultsFromPage))
-        navigationItem.setRightBarButton(removeButton, animated: true)
-
-
-        removeButton.tintColor = UIColor.label
         navigationItem.title = "Search"
         navigationItem.searchController = searchController
         navigationItem.searchController?.delegate = self
@@ -44,7 +39,20 @@ class SearchController: UIViewController {
         navigationItem.searchController?.searchBar.placeholder = "Enter a movie or series"
     }
     
+    private func setupNavigationBar() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        let removeButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeResultsFromPage))
+        navigationItem.setRightBarButton(removeButton, animated: true)
+        removeButton.tintColor = UIColor.label
+    }
+    
     private func setupCollectionView() {
+        configureCollectionViewLayout()
+        configureCollectionView()
+        layoutCollectionView()
+    }
+    
+    private func configureCollectionViewLayout() {
         let collectionViewLayout = UICollectionViewFlowLayout()
         let width = view.frame.width
         let margin:CGFloat = 25
@@ -53,14 +61,18 @@ class SearchController: UIViewController {
         collectionViewLayout.sectionInset = UIEdgeInsets(top: margin, left: margin, bottom: margin, right: margin)
         collectionViewLayout.minimumLineSpacing = 40
         collection = UICollectionView(frame: view.frame, collectionViewLayout: collectionViewLayout)
-        
+    }
+    
+    private func configureCollectionView() {
         collection.backgroundColor = .none
         collection.delegate = self
         collection.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.reuseID)
         collection.dataSource = dataSource
         collection.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collection)
-        
+    }
+    
+    private func layoutCollectionView() {
         NSLayoutConstraint.activate([
             collection.topAnchor.constraint(equalTo: view.topAnchor),
             collection.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -103,6 +115,10 @@ class SearchController: UIViewController {
             guard let apiResult = result else {
                 print("Cannot get all media from the API")
                 #warning("show alert messaging about an network error")
+                self.showNetworkErrorAlert()
+                DispatchQueue.main.sync {
+                    spinner.stopAnimating()
+                }
                 return
             }
             DispatchQueue.main.async {
@@ -110,6 +126,14 @@ class SearchController: UIViewController {
                 self.title = "Results"
                 spinner.stopAnimating()
             }
+        }
+    }
+    
+    private func showNetworkErrorAlert() {
+        DispatchQueue.main.async {
+            let errorAlertVC =  MovieApiAlertVC(withTitle: "Error", withMessage: "Something went wrong. Please check your internet connection or try again later.", withConfirmationButtonText: "Ok", withCancelButtonText: nil, withDelegate: self)
+            let errorAlertView = MovieApiAlertView(frame: self.view.frame, alert: errorAlertVC)
+            self.view.addSubview(errorAlertView)
         }
     }
     

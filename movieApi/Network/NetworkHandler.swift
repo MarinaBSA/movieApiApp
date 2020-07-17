@@ -27,7 +27,7 @@ class NetworkHandler {
                     completion(nil)
                 }
             } catch {
-                print("Cannot get this movie's information. Error: \(error.localizedDescription)")
+                print("Cannot get movies' information. Error: \(error.localizedDescription)")
                 completion(nil)
             }
         }

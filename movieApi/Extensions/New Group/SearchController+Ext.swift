@@ -1,5 +1,5 @@
 //
-//  UISearchController+Ext.swift
+//  SearchController+Ext.swift
 //  movieApi
 //
 //  Created by Marina Beatriz Santana de Aguiar on 16.07.20.
