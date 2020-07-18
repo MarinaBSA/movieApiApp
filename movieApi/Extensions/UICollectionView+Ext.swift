@@ -13,11 +13,13 @@ extension SearchController: UICollectionViewDelegate {
         let selectedMedia = cells[indexPath.item]
         let spinner = collectionView.cellForItem(at: indexPath)!.startSpinner(nil)
         self.networkHandler.getMedia(id: selectedMedia.id) {
-            [weak self] result in
+            [weak self] result, error in
             guard let self = self else { return }
-            guard let apiResult = result else {
-                #warning("show alert messaging about an network error")
-                print("Cannot get specific media from the API")
+            guard let apiResult = result, error == nil else {
+                MovieApiAlertVC.showAlertHelper(title: "Error",
+                                                message: error!.rawValue,
+                                     confirmationButtonText: "Ok",
+                                     cancelButtonText: nil, viewController: self)
                 return
             }
             DispatchQueue.main.async {
@@ -31,22 +33,21 @@ extension SearchController: UICollectionViewDelegate {
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        func showEmptySearchBarAlertHelper() {
-            let alertVC = MovieApiAlertVC(withTitle: "Warning",
-                                            withMessage: "Insert the desired keyword in the search bar at the top in order to see more results on that keyword.", withConfirmationButtonText: "Ok", withCancelButtonText: nil)
-            self.present(alertVC, animated: true)
-        }
-        
         let offset = scrollView.contentOffset.y
         let viewHeight = view.bounds.height
         let scrollViewHeight = scrollView.contentSize.height
         if scrollViewHeight > viewHeight, offset + viewHeight > scrollViewHeight + 200 {
             if let text = self.searchController.searchBar.text, text.isEmpty {
-                showEmptySearchBarAlertHelper()
+                MovieApiAlertVC.showAlertHelper(title: "Warning",
+                    message: "Insert the desired keyword in the search bar at the top in order to see more results on that keyword.",
+                    confirmationButtonText: "Ok",
+                    cancelButtonText: nil, viewController: self)
                 return
             }
             self.page += 1
             self.updateResults(searchText: self.searchController.searchBar.text!)
         }
     }
+    
+   
 }

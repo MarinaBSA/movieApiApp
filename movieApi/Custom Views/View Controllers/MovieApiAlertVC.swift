@@ -145,5 +145,10 @@ class MovieApiAlertVC: UIViewController {
                 return false
         }
     }
+    
+    static func showAlertHelper(title: String, message: String, confirmationButtonText: String, cancelButtonText: String?, viewController: UIViewController) {
+        let alertVC = MovieApiAlertVC(withTitle: title, withMessage: message, withConfirmationButtonText: confirmationButtonText, withCancelButtonText: cancelButtonText)
+        viewController.present(alertVC, animated: true)
+    }
 
 }

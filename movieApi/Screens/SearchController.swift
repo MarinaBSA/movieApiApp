@@ -116,11 +116,11 @@ class SearchController: UIViewController {
     func updateResults(searchText: String) {
         let spinner = view.startSpinner(nil)
         networkHandler.getAllMedia(withTitle: searchText, fromYear: nil, fromPage: page) {
-            [weak self] result in
+            [weak self] result, error in
             guard let self = self else { return }
-            guard let apiResult = result else {
+            guard let apiResult = result, error == nil else {
                 DispatchQueue.main.sync {
-                    self.showNetworkErrorAlert()
+                    MovieApiAlertVC.showAlertHelper(title: "Error", message: error!.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
                     spinner.stopAnimating()
                 }
                 return
@@ -133,10 +133,6 @@ class SearchController: UIViewController {
         }
     }
     
-    private func showNetworkErrorAlert() {
-        let errorAlertVC =  MovieApiAlertVC(withTitle: "Error", withMessage: "Something went wrong. Please check your internet connection or try again later.", withConfirmationButtonText: "Ok", withCancelButtonText: nil)
-        self.present(errorAlertVC, animated: true)
-    }
     
     @objc func removeResultsFromPage() {
         let alert = UIAlertController(title: "Warning", message: "Do you want to erase the results from the screen?", preferredStyle: .alert)
