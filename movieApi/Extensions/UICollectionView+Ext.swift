@@ -36,11 +36,9 @@ extension SearchController: UICollectionViewDelegate {
         let offset = scrollView.contentOffset.y
         let viewHeight = view.bounds.height
         let scrollViewHeight = scrollView.contentSize.height
-        if scrollViewHeight > viewHeight, offset + viewHeight > scrollViewHeight + 100, let keyword = searchKeyword {
+        if offset + viewHeight > scrollViewHeight + 70, let keyword = searchKeyword {
             self.page += 1
             self.updateResults(searchText: keyword)
         }
     }
-    
-   
 }
