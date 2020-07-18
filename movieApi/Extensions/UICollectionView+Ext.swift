@@ -31,13 +31,22 @@ extension SearchController: UICollectionViewDelegate {
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        func showEmptySearchBarAlertHelper() {
+            let alertVC = MovieApiAlertVC(withTitle: "Warning",
+                                            withMessage: "Insert the desired keyword in the search bar at the top in order to see more results on that keyword.", withConfirmationButtonText: "Ok", withCancelButtonText: nil)
+            self.present(alertVC, animated: true)
+        }
+        
         let offset = scrollView.contentOffset.y
         let viewHeight = view.bounds.height
         let scrollViewHeight = scrollView.contentSize.height
         if scrollViewHeight > viewHeight, offset + viewHeight > scrollViewHeight + 200 {
+            if let text = self.searchController.searchBar.text, text.isEmpty {
+                showEmptySearchBarAlertHelper()
+                return
+            }
             self.page += 1
             self.updateResults(searchText: self.searchController.searchBar.text!)
-            
         }
     }
 }
