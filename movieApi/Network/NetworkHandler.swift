@@ -11,9 +11,9 @@ import Foundation
 class NetworkHandler {
     static var baseURL =  "https://www.omdbapi.com/?apikey=b78d8af3"
     
-     func getAllMedia(withTitle title: String,fromYear year: Int?, completion: @escaping (ApiResult?) -> Void ) {
+    func getAllMedia(withTitle title: String, fromYear year: Int?,fromPage page: Int, completion: @escaping (ApiResult?) -> Void ) {
         DispatchQueue.global(qos: .background).async {
-            let url = URL(string: "\(NetworkHandler.baseURL)&s=\(title)")!
+            let url = URL(string: "\(NetworkHandler.baseURL)&s=\(title)&page=\(page)")!
             
             let jsonDecoder = JSONDecoder()
             do {

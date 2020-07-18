@@ -58,14 +58,16 @@ class CollectionViewCell: UICollectionViewCell {
             if let cachedImage = SearchController.imageCache.object(forKey: NSString(string: passedURL)) {
                 // image already cached
                 imageView.image = cachedImage
-                self.spinner.stopAnimating()
+                spinner.stopAnimating()
+                self.title = title
+                self.year = year ?? "Unknown"
                 return
             }
             // image not cached -- cache it
             getImage(fromURL: passedURL) {
                 [weak self] compressedImage in
                 guard let self = self else { return }
-                DispatchQueue.main.async {
+                DispatchQueue.main.sync {
                     guard let image = compressedImage  else {
                         self.imageView.image = UIImage(systemName: Images.placeholder.rawValue)
                         self.imageView.tintColor = .label
@@ -73,11 +75,11 @@ class CollectionViewCell: UICollectionViewCell {
                         return
                     }
                     self.imageView.image = image
+                    self.title = title
+                    self.year = year ?? "Unknown"
                     self.spinner.stopAnimating()
                 }
             }
-            self.title = title
-            self.year = year ?? "Unknown"
         }
     }
     

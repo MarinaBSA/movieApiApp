@@ -29,4 +29,15 @@ extension SearchController: UICollectionViewDelegate {
             }
         }
     }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offset = scrollView.contentOffset.y
+        let viewHeight = view.bounds.height
+        let scrollViewHeight = scrollView.contentSize.height
+        if scrollViewHeight > viewHeight, offset + viewHeight > scrollViewHeight + 200 {
+            self.page += 1
+            self.updateResults(searchText: self.searchController.searchBar.text!)
+            
+        }
+    }
 }

@@ -15,12 +15,13 @@ enum Section {
 class SearchController: UIViewController {
     
     let searchController = UISearchController()
+    let networkHandler = NetworkHandler()
     var cells = [MediaItem]()
     var collection: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, MediaItem>!
     var snapshot: NSDiffableDataSourceSnapshot<Section, MediaItem>!
+    var page = 1
     static var imageCache = NSCache<NSString, UIImage>()
-    let networkHandler = NetworkHandler()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,24 +103,29 @@ class SearchController: UIViewController {
     }
     
     private func showMedia(media: [Media]) {
-        cells = media.map({ MediaItem(title: $0.Title, plot: nil, year: $0.Year, id: $0.imdbID, poster: $0.Poster) })
+        let newCells = media.map({ MediaItem(title: $0.Title, plot: nil, year: $0.Year, id: $0.imdbID, poster: $0.Poster) })
+        if page == 1 {
+            cells = newCells
+        } else {
+            cells.append(contentsOf: newCells)
+        }
         snapshot = createCollectionViewsSnapshot(cells: cells)
         updateCollectionView()
     }
  
     func updateResults(searchText: String) {
         let spinner = view.startSpinner(nil)
-        networkHandler.getAllMedia(withTitle: searchText, fromYear: nil) {
+        networkHandler.getAllMedia(withTitle: searchText, fromYear: nil, fromPage: page) {
             [weak self] result in
             guard let self = self else { return }
             guard let apiResult = result else {
-                self.showNetworkErrorAlert()
                 DispatchQueue.main.sync {
+                    self.showNetworkErrorAlert()
                     spinner.stopAnimating()
                 }
                 return
             }
-            DispatchQueue.main.async {
+            DispatchQueue.main.sync {
                 self.showMedia(media: apiResult.Search)
                 self.title = "Results"
                 spinner.stopAnimating()
@@ -128,10 +134,8 @@ class SearchController: UIViewController {
     }
     
     private func showNetworkErrorAlert() {
-        DispatchQueue.main.async {
-            let errorAlertVC =  MovieApiAlertVC(withTitle: "Error", withMessage: "Something went wrong. Please check your internet connection or try again later.", withConfirmationButtonText: "Ok", withCancelButtonText: nil)
-            self.present(errorAlertVC, animated: true)
-        }
+        let errorAlertVC =  MovieApiAlertVC(withTitle: "Error", withMessage: "Something went wrong. Please check your internet connection or try again later.", withConfirmationButtonText: "Ok", withCancelButtonText: nil)
+        self.present(errorAlertVC, animated: true)
     }
     
     @objc func removeResultsFromPage() {
@@ -147,7 +151,6 @@ class SearchController: UIViewController {
         alert.addAction(UIAlertAction(title: "No", style: .cancel))
         present(alert, animated: true)
      }
-     
 }
 
 

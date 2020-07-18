@@ -47,6 +47,7 @@ class DetailViewController: UIViewController {
         view.addSubview(backButton)
       
         configureImageView()
+        configureMediaTitle()
         configureYearLabel()
         configurePlotLabel()
         configureBackButton()
