@@ -21,6 +21,7 @@ class SearchController: UIViewController {
     var dataSource: UICollectionViewDiffableDataSource<Section, MediaItem>!
     var snapshot: NSDiffableDataSourceSnapshot<Section, MediaItem>!
     var page = 1
+    var searchKeyword: String!
     static var imageCache = NSCache<NSString, UIImage>()
     
     override func viewDidLoad() {
@@ -133,8 +134,8 @@ class SearchController: UIViewController {
         }
     }
     
-    
     @objc func removeResultsFromPage() {
+        guard !cells.isEmpty else { return }
         let alert = UIAlertController(title: "Warning", message: "Do you want to erase the results from the screen?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .destructive) {
             [weak self] _ in

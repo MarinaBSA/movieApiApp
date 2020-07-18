@@ -36,16 +36,9 @@ extension SearchController: UICollectionViewDelegate {
         let offset = scrollView.contentOffset.y
         let viewHeight = view.bounds.height
         let scrollViewHeight = scrollView.contentSize.height
-        if scrollViewHeight > viewHeight, offset + viewHeight > scrollViewHeight + 200 {
-            if let text = self.searchController.searchBar.text, text.isEmpty {
-                MovieApiAlertVC.showAlertHelper(title: "Warning",
-                    message: "Insert the desired keyword in the search bar at the top in order to see more results on that keyword.",
-                    confirmationButtonText: "Ok",
-                    cancelButtonText: nil, viewController: self)
-                return
-            }
+        if scrollViewHeight > viewHeight, offset + viewHeight > scrollViewHeight + 100, let keyword = searchKeyword {
             self.page += 1
-            self.updateResults(searchText: self.searchController.searchBar.text!)
+            self.updateResults(searchText: keyword)
         }
     }
     

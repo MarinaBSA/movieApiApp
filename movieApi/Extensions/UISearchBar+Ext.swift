@@ -12,7 +12,8 @@ extension SearchController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         guard !(searchBar.text?.isEmpty)! else { return }
         self.page = 1
-        self.updateResults(searchText: searchBar.text!)
+        self.searchKeyword = searchBar.text!
+        self.updateResults(searchText: self.searchKeyword)
         dismiss(animated: true)
     }
 }
