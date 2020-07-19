@@ -18,7 +18,8 @@ class DetailViewController: UIViewController {
     let titleLabel = UILabel()
     let yearLabel = UILabel()
     let plotLabel = UITextView()
-    let backButton = UIButton(type: .close)
+    let closeButton = UIButton(type: .close)
+    let favouriteButton = UIButton(type: .custom)
     
     init(mediaTitle: String, year: String, plot: String?, imageURL: String?, nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         self.mediaTitle = mediaTitle
@@ -38,24 +39,30 @@ class DetailViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         yearLabel.translatesAutoresizingMaskIntoConstraints = false
         plotLabel.translatesAutoresizingMaskIntoConstraints = false
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.addTarget(self, action: #selector(dismissDetailVC), for: .touchUpInside)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.addTarget(self, action: #selector(dismissDetailVC), for: .touchUpInside)
+        favouriteButton.translatesAutoresizingMaskIntoConstraints = false
+        favouriteButton.addTarget(self, action: #selector(addToFavourite), for: .touchUpInside)
         
         view.addSubview(titleLabel)
         view.addSubview(yearLabel)
         view.addSubview(plotLabel)
-        view.addSubview(backButton)
+        view.addSubview(closeButton)
+        view.addSubview(favouriteButton)
       
         configureImageView()
         configureMediaTitle()
         configureYearLabel()
         configurePlotLabel()
-        configureBackButton()
+        configureCloseButton()
+        configureFavouriteButton()
         
+        layoutCloseButton()
         layoutImageView()
         layoutTitleLabel()
         layoutYearLabel()
         layoutPlotLabel()
+        layoutFavouriteButton()
     }
     
     private func configureYearLabel() {
@@ -100,15 +107,26 @@ class DetailViewController: UIViewController {
         titleLabel.textColor = .label
     }
     
-    private func configureBackButton() {
-        backButton.titleLabel?.text = "Results"
-        backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        backButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
+    private func configureCloseButton() {
+        closeButton.titleLabel?.text = "Results"
+    }
+    
+    private func configureFavouriteButton() {
+        let favImage = UIImage(systemName: SFSymbols.favouriteMedia.rawValue)
+        favouriteButton.setImage(favImage, for: .normal)
+        favouriteButton.tintColor = .systemRed
+    }
+    
+    private func layoutCloseButton() {
+        NSLayoutConstraint.activate([
+            closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            closeButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+        ])
     }
     
     private func layoutImageView() {
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 20),
+            imageView.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 20),
             imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5)
@@ -119,7 +137,7 @@ class DetailViewController: UIViewController {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
         ])
     }
     
@@ -137,6 +155,16 @@ class DetailViewController: UIViewController {
             plotLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             plotLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             plotLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
+    
+    private func layoutFavouriteButton() {
+        NSLayoutConstraint.activate([
+            favouriteButton.firstBaselineAnchor.constraint(equalTo: closeButton.firstBaselineAnchor),
+            favouriteButton.lastBaselineAnchor.constraint(equalTo: closeButton.lastBaselineAnchor),
+            favouriteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            favouriteButton.heightAnchor.constraint(equalToConstant: closeButton.frame.height),
+            favouriteButton.widthAnchor.constraint(equalToConstant: closeButton.frame.width),
         ])
     }
     
@@ -167,8 +195,12 @@ class DetailViewController: UIViewController {
         imageView.tintColor = .label
     }
     
-    
     @objc private func dismissDetailVC() {
         dismiss(animated: true)
+    }
+    
+    @objc private func addToFavourite(){
+        // Show pop up on the bottom that says -> "Added this media to favourites" and disappears
+        print("Added to favs")
     }
 }

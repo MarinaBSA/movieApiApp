@@ -1,5 +1,5 @@
 //
-//  NetworkHandler.swift
+//  NetworkManager.swift
 //  movieApi
 //
 //  Created by Marina Beatriz Santana de Aguiar on 16.07.20.
@@ -8,13 +8,13 @@
 
 import Foundation
 
-class NetworkHandler {
+class NetworkManager {
     static var baseURL =  "https://www.omdbapi.com/?apikey=b78d8af3"
     
     
     func getAllMedia(withTitle title: String, fromYear year: Int?,fromPage page: Int, completion: @escaping (ApiResult?, NetworkError?) -> Void ) {
         DispatchQueue.global(qos: .background).async {
-            let url = URL(string: "\(NetworkHandler.baseURL)&s=\(title)&page=\(page)")!
+            let url = URL(string: "\(NetworkManager.baseURL)&s=\(title)&page=\(page)")!
             
             let jsonDecoder = JSONDecoder()
             do {
@@ -29,14 +29,14 @@ class NetworkHandler {
                 }
             } catch {
                 print("Cannot get movies' information. Error: \(error.localizedDescription)")
-                completion(nil, NetworkError.movieInformation)
+                completion(nil, NetworkError.internetConnection)
             }
         }
     }
     
     func getMedia(id: String, completion: @escaping (Media?, NetworkError?) -> ()) {
         DispatchQueue.global(qos: .background).async {
-            let url = URL(string: "\(NetworkHandler.baseURL)&i=\(id)")!
+            let url = URL(string: "\(NetworkManager.baseURL)&i=\(id)")!
             
             let jsonDecoder = JSONDecoder()
             do {
@@ -51,7 +51,7 @@ class NetworkHandler {
                 }
             } catch {
                 print("Cannot get this movie's information. Error: \(error.localizedDescription)")
-                completion(nil, NetworkError.movieInformation)
+                completion(nil, NetworkError.internetConnection)
             }
         }
     }

@@ -8,5 +8,5 @@
 
 enum NetworkError: String {
     case jsonDecoding = "There seems to be no media under the searched keyword. Try another one or check for typos. "
-    case movieInformation = "There is something wrong with your internet connection. Try later again."
+    case internetConnection = "There is something wrong with your internet connection. Try later again."
 }

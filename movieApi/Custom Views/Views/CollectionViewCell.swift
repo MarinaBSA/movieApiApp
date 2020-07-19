@@ -53,7 +53,7 @@ class CollectionViewCell: UICollectionViewCell {
     }
     
     func setLabels(title: String, year: String?, imageURL: String?) {
-        guard spinner != nil else { return }
+        guard spinner != nil else { print("No Spinner"); return }
         if let passedURL = imageURL {
             if let cachedImage = SearchController.imageCache.object(forKey: NSString(string: passedURL)) {
                 // image already cached

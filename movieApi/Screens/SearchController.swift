@@ -15,7 +15,7 @@ enum Section {
 class SearchController: UIViewController {
     
     let searchController = UISearchController()
-    let networkHandler = NetworkHandler()
+    let networkHandler = NetworkManager()
     var cells = [MediaItem]()
     var collection: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, MediaItem>!
@@ -71,7 +71,20 @@ class SearchController: UIViewController {
         collection.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.reuseID)
         collection.dataSource = dataSource
         collection.translatesAutoresizingMaskIntoConstraints = false
+        setupDataSource()
         view.addSubview(collection)
+    }
+    
+    private func setupDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<Section, MediaItem>(collectionView: collection, cellProvider: {
+            (collection, indexPath, media) -> UICollectionViewCell? in
+            guard let cell = collection.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.reuseID, for: indexPath) as? CollectionViewCell else {
+                fatalError("Cannot dequeue custom cell")
+            }
+            cell.spinner = cell.startSpinner(nil)
+            cell.setLabels(title: media.title, year: media.year, imageURL: media.poster)
+            return cell
+        })
     }
     
     private func layoutCollectionView() {
@@ -91,15 +104,6 @@ class SearchController: UIViewController {
     }
     
     private func updateCollectionView() {
-        dataSource = UICollectionViewDiffableDataSource<Section, MediaItem>(collectionView: collection, cellProvider: {
-            (collection, indexPath, media) -> UICollectionViewCell? in
-            guard let cell = collection.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.reuseID, for: indexPath) as? CollectionViewCell else {
-                fatalError("Cannot dequeue custom cell")
-            }
-            cell.spinner = cell.startSpinner(nil)
-            cell.setLabels(title: media.title, year: media.year, imageURL: media.poster)
-            return cell
-        })
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
@@ -127,8 +131,8 @@ class SearchController: UIViewController {
                 return
             }
             DispatchQueue.main.sync {
-                self.showMedia(media: apiResult.Search)
                 self.title = "Results"
+                self.showMedia(media: apiResult.Search)
                 spinner.stopAnimating()
             }
         }
@@ -140,15 +144,72 @@ class SearchController: UIViewController {
         alert.addAction(UIAlertAction(title: "Yes", style: .destructive) {
             [weak self] _ in
             guard let self = self else { return }
-            guard !self.cells.isEmpty else { return }
             self.cells.removeAll(keepingCapacity: true)
-            self.snapshot = self.createCollectionViewsSnapshot(cells: self.cells)
+            
+            //if let media = dataSource.itemIdentifier(for: IndexPath) {} -> gives me the MediaItem on this indexPath
+            self.snapshot.deleteAllItems()
             self.updateCollectionView()
         })
         alert.addAction(UIAlertAction(title: "No", style: .cancel))
         present(alert, animated: true)
      }
 }
+
+
+extension SearchController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedMedia = cells[indexPath.item]
+        let spinner = collectionView.cellForItem(at: indexPath)!.startSpinner(nil)
+        self.networkHandler.getMedia(id: selectedMedia.id) {
+            [weak self] result, error in
+            guard let self = self else { return }
+            guard let apiResult = result, error == nil else {
+                MovieApiAlertVC.showAlertHelper(title: "Error",
+                                                message: error!.rawValue,
+                                                confirmationButtonText: "Ok",
+                                                cancelButtonText: nil, viewController: self)
+                return
+            }
+            DispatchQueue.main.async {
+                let vc = DetailViewController(mediaTitle: apiResult.Title, year: apiResult.Year,
+                                              plot: apiResult.Plot, imageURL: apiResult.Poster, nibName: nil, bundle: nil)
+                vc.modalTransitionStyle = .crossDissolve
+                self.present(vc, animated: true)
+                spinner.stopAnimating()
+            }
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offset = scrollView.contentOffset.y
+        let viewHeight = view.frame.size.height
+        let scrollViewHeight = scrollView.contentSize.height
+        if offset + viewHeight > scrollViewHeight + 70, let keyword = searchKeyword {
+            page += 1
+            updateResults(searchText: keyword)
+        }
+    }
+    
+}
+
+extension SearchController: UISearchControllerDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        guard !(searchBar.text?.isEmpty)! else { return }
+        self.updateResults(searchText: searchBar.text!)
+    }
+}
+
+extension SearchController: UISearchBarDelegate {
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        guard !(searchBar.text?.isEmpty)! else { return }
+        self.page = 1
+        self.searchKeyword = searchBar.text!
+        self.updateResults(searchText: self.searchKeyword)
+        dismiss(animated: true)
+    }
+}
+
+
 
 
 
