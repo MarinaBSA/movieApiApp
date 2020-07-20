@@ -9,5 +9,5 @@
 import Foundation
 
 enum SFSymbols: String {
-    case favouriteMedia = "heart.fill"
+    case favouriteMedia = "star.fill"
 }

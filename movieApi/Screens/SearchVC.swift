@@ -161,6 +161,7 @@ extension SearchViewController: UICollectionViewDelegate {
         let selectedMedia = cells[indexPath.item]
         let spinner = collectionView.cellForItem(at: indexPath)!.startSpinner(nil)
         self.networkHandler.getMedia(id: selectedMedia.id) {
+            // must do a api call because there is no plot available after the initial api call for the searchVC(API Parameter 's' gives no plots back)
             [weak self] result, error in
             guard let self = self else { return }
             guard let apiResult = result, error == nil else {
@@ -171,8 +172,8 @@ extension SearchViewController: UICollectionViewDelegate {
                 return
             }
             DispatchQueue.main.async {
-                let vc = DetailViewController(mediaTitle: apiResult.Title, year: apiResult.Year,
-                                              plot: apiResult.Plot, imageURL: apiResult.Poster, nibName: nil, bundle: nil)
+                let mediaItem = MediaItem(title: apiResult.Title, plot: apiResult.Plot, year: apiResult.Year, id: apiResult.imdbID, poster: apiResult.Poster)
+                let vc = DetailViewController(media: mediaItem, nibName: nil, bundle: nil)
                 vc.modalTransitionStyle = .crossDissolve
                 self.present(vc, animated: true)
                 spinner.stopAnimating()

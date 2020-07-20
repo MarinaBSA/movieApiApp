@@ -9,10 +9,7 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    let imageURL: String?
-    let mediaTitle: String
-    let year: String?
-    let plot: String?
+    let media: MediaItem
     
     var imageView = UIImageView()
     let titleLabel = UILabel()
@@ -21,11 +18,9 @@ class DetailViewController: UIViewController {
     let closeButton = UIButton(type: .close)
     let favouriteButton = UIButton(type: .custom)
     
-    init(mediaTitle: String, year: String, plot: String?, imageURL: String?, nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.mediaTitle = mediaTitle
-        self.year = year
-        self.plot = plot
-        self.imageURL = imageURL
+    
+    init(media: MediaItem, nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        self.media = media
         super.init(nibName: nil, bundle: nil)
         configure()
     }
@@ -66,7 +61,7 @@ class DetailViewController: UIViewController {
     }
     
     private func configureYearLabel() {
-        if let year = self.year {
+        if let year = media.year {
             yearLabel.text = year
             yearLabel.font = UIFont.preferredFont(forTextStyle: .title2)
             yearLabel.textColor = .label
@@ -74,7 +69,7 @@ class DetailViewController: UIViewController {
     }
     
     private func configurePlotLabel() {
-      if let plot = self.plot {
+      if let plot = media.plot {
             plotLabel.text = plot
             plotLabel.adjustsFontForContentSizeCategory = true
             plotLabel.isScrollEnabled = true
@@ -85,7 +80,7 @@ class DetailViewController: UIViewController {
     }
     
     private func configureImageView() {
-        if let _ = URL(string: imageURL!) {
+        if let _ = URL(string: media.poster!) {
             setImage()
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.clipsToBounds = true
@@ -101,7 +96,7 @@ class DetailViewController: UIViewController {
     }
     
     private func configureMediaTitle() {
-        titleLabel.text = mediaTitle
+        titleLabel.text = media.title
         titleLabel.numberOfLines = 0
         titleLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         titleLabel.textColor = .label
@@ -114,7 +109,7 @@ class DetailViewController: UIViewController {
     private func configureFavouriteButton() {
         let favImage = UIImage(systemName: SFSymbols.favouriteMedia.rawValue)
         favouriteButton.setImage(favImage, for: .normal)
-        favouriteButton.tintColor = .systemRed
+        favouriteButton.tintColor = .systemYellow
     }
     
     private func layoutCloseButton() {
@@ -169,7 +164,7 @@ class DetailViewController: UIViewController {
     }
     
     private func setImage() {
-        if let passedURL = imageURL {
+        if let passedURL = media.poster {
             if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: passedURL)) {
                 // image already cached -- get it from the cache
                 imageView.image = cachedImage
@@ -200,7 +195,7 @@ class DetailViewController: UIViewController {
     }
     
     @objc private func addToFavourite(){
-        // Show pop up on the bottom that says -> "Added this media to favourites" and disappears
-        print("Added to favs")
+        #warning("Show pop up on the bottom that says -> 'Added this media to favourites' and disappears")
+        //FavoritesManager.setFavorite(<#T##self: FavoritesManager##FavoritesManager#>)
     }
 }
