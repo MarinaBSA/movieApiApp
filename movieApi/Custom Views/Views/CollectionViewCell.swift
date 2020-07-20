@@ -55,7 +55,7 @@ class CollectionViewCell: UICollectionViewCell {
     func setLabels(title: String, year: String?, imageURL: String?) {
         guard spinner != nil else { print("No Spinner"); return }
         if let passedURL = imageURL {
-            if let cachedImage = SearchController.imageCache.object(forKey: NSString(string: passedURL)) {
+            if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: passedURL)) {
                 // image already cached
                 imageView.image = cachedImage
                 spinner.stopAnimating()
@@ -89,7 +89,7 @@ class CollectionViewCell: UICollectionViewCell {
                 do {
                     let data = try Data(contentsOf: imageURL)
                     if let compressedImageData = UIImage(data: data)?.jpegData(compressionQuality: 0.5), let compressedImage = UIImage(data: compressedImageData) {
-                        SearchController.imageCache.setObject(compressedImage, forKey: NSString(string: url))
+                        SearchViewController.imageCache.setObject(compressedImage, forKey: NSString(string: url))
                         completion(compressedImage)
                     }
                 } catch {

@@ -170,7 +170,7 @@ class DetailViewController: UIViewController {
     
     private func setImage() {
         if let passedURL = imageURL {
-            if let cachedImage = SearchController.imageCache.object(forKey: NSString(string: passedURL)) {
+            if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: passedURL)) {
                 // image already cached -- get it from the cache
                 imageView.image = cachedImage
                 return
@@ -180,7 +180,7 @@ class DetailViewController: UIViewController {
                 do {
                     let data = try Data(contentsOf: imageURL)
                     if let compressedImageData = UIImage(data: data)?.jpegData(compressionQuality: 0.5), let compressedImage = UIImage(data: compressedImageData) {
-                        SearchController.imageCache.setObject(compressedImage, forKey: NSString(string: passedURL))
+                        SearchViewController.imageCache.setObject(compressedImage, forKey: NSString(string: passedURL))
                         imageView.image = UIImage(data: compressedImageData)
                         return
                     }

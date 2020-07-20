@@ -12,7 +12,7 @@ enum Section {
     case main
 }
 
-class SearchController: UIViewController {
+class SearchViewController: UIViewController {
     
     let searchController = UISearchController()
     let networkHandler = NetworkManager()
@@ -156,7 +156,7 @@ class SearchController: UIViewController {
 }
 
 
-extension SearchController: UICollectionViewDelegate {
+extension SearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedMedia = cells[indexPath.item]
         let spinner = collectionView.cellForItem(at: indexPath)!.startSpinner(nil)
@@ -192,14 +192,14 @@ extension SearchController: UICollectionViewDelegate {
     
 }
 
-extension SearchController: UISearchControllerDelegate {
+extension SearchViewController: UISearchControllerDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         guard !(searchBar.text?.isEmpty)! else { return }
         self.updateResults(searchText: searchBar.text!)
     }
 }
 
-extension SearchController: UISearchBarDelegate {
+extension SearchViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         guard !(searchBar.text?.isEmpty)! else { return }
         self.page = 1
