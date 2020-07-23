@@ -125,7 +125,7 @@ class SearchViewController: UIViewController {
             guard let self = self else { return }
             guard let apiResult = result, error == nil else {
                 DispatchQueue.main.sync {
-                    MovieApiAlertVC.showAlertHelper(title: "Error", message: error!.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
+                    MovieApiAlertViewController.showAlertHelper(title: "Error", message: error!.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
                     spinner.stopAnimating()
                 }
                 return
@@ -165,7 +165,7 @@ extension SearchViewController: UICollectionViewDelegate {
             [weak self] result, error in
             guard let self = self else { return }
             guard let apiResult = result, error == nil else {
-                MovieApiAlertVC.showAlertHelper(title: "Error",
+                MovieApiAlertViewController.showAlertHelper(title: "Error",
                                                 message: error!.rawValue,
                                                 confirmationButtonText: "Ok",
                                                 cancelButtonText: nil, viewController: self)

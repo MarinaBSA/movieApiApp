@@ -202,17 +202,16 @@ class DetailViewController: UIViewController {
         dismiss(animated: true) 
     }
     
-    @objc private func addToFavourite(){
-        #warning("Show pop up on the bottom that says -> 'Added this media to favourites' and disappears")
+    @objc private func addToFavourite() {
         FavoritesManager.setFavorite(media: media) {
             [weak self] error in
             guard let self = self else { return }
             if let passedError = error {
-                MovieApiAlertVC.showAlertHelper(title: "Error", message: passedError.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
+                MovieApiAlertViewController.showAlertHelper(title: "Error", message: passedError.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
+                return
             }
-            MovieApiAlertVC.showAlertHelper(title: "Saved", message: Messages.savedAsFavorit.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
+            self.view.addSubview(ToastView(text: Messages.savedAsFavorit.rawValue, parentView: self.view, frame: .zero))
             self.favouriteButton.tintColor = .systemYellow
-            return
         }
     }
 }

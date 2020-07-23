@@ -9,6 +9,6 @@
 import Foundation
 
 enum Messages: String {
-    case savedAsFavorit = "Media was successfully saved as favorite."
+    case savedAsFavorit = "Saved"
     case noFavorites = "No favorites yet. Add some and come back to see them."
 }

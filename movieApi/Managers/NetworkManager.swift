@@ -13,7 +13,8 @@ class NetworkManager {
     
     func getAllMedia(withTitle title: String, fromYear year: Int?,fromPage page: Int, completion: @escaping (ApiResult?, CustomError?) -> Void ) {
         DispatchQueue.global(qos: .background).async {
-            let url = URL(string: "\(NetworkManager.baseURL)&s=\(title)&page=\(page)")!
+            let titleWithoutSpaces = title.replacingOccurrences(of: " ", with: "%20")
+            let url = URL(string: "\(NetworkManager.baseURL)&s=\(titleWithoutSpaces)&page=\(page)")!
             
             let jsonDecoder = JSONDecoder()
             do {

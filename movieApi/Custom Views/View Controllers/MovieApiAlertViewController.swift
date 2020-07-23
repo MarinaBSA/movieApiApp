@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieApiAlertVC: UIViewController {
+class MovieApiAlertViewController: UIViewController {
     let alertTitle: String
     let alertMessage: String
     let alertConfirmationButtonText: String
@@ -147,7 +147,7 @@ class MovieApiAlertVC: UIViewController {
     }
     
     static func showAlertHelper(title: String, message: String, confirmationButtonText: String, cancelButtonText: String?, viewController: UIViewController) {
-        let alertVC = MovieApiAlertVC(withTitle: title, withMessage: message, withConfirmationButtonText: confirmationButtonText, withCancelButtonText: cancelButtonText)
+        let alertVC = MovieApiAlertViewController(withTitle: title, withMessage: message, withConfirmationButtonText: confirmationButtonText, withCancelButtonText: cancelButtonText)
         viewController.present(alertVC, animated: true)
     }
 

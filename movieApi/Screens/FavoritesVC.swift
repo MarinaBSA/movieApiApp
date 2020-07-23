@@ -12,6 +12,7 @@ class FavoritesViewController: UITableViewController {
     let dataSource = TableViewDataSource()
     
     override func viewDidLoad() {
+        #warning("add button on top to delete all favs")
         title = "Favorites"
         tableView.dataSource = dataSource
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.reuseID)
@@ -27,13 +28,13 @@ class FavoritesViewController: UITableViewController {
         switch allFavorites {
             case .success(let favorites):
                 guard let favs = favorites else {
-                    MovieApiAlertVC.showAlertHelper(title: "Favorites", message: Messages.noFavorites.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
+                    MovieApiAlertViewController.showAlertHelper(title: "Favorites", message: Messages.noFavorites.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
                     return
                 }
                 dataSource.favorites = favs
                 tableView.reloadData()
             case .failure(let error):
-                MovieApiAlertVC.showAlertHelper(title: "Favorites", message: error.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
+                MovieApiAlertViewController.showAlertHelper(title: "Favorites", message: error.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
         }
     }
     
