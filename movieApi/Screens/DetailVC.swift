@@ -179,18 +179,11 @@ class DetailViewController: UIViewController {
                 return
             }
             // image not cached -- cache it
-            if let imageURL = URL(string: passedURL) {
-                do {
-                    let data = try Data(contentsOf: imageURL)
-                    if let compressedImageData = UIImage(data: data)?.jpegData(compressionQuality: 0.5), let compressedImage = UIImage(data: compressedImageData) {
-                        SearchViewController.imageCache.setObject(compressedImage, forKey: NSString(string: passedURL))
-                        imageView.image = UIImage(data: compressedImageData)
-                        return
-                    }
-                } catch {
-                    print("Cannot get image from url. Error: \(error.localizedDescription)")
-                    imageView.image = UIImage(systemName: Images.placeholder.rawValue)
-                    imageView.tintColor = .label
+            NetworkManager.getImage(mediaURL: passedURL) {
+                [weak self]
+                image in
+                DispatchQueue.main.async {
+                    self?.imageView.image = image
                 }
             }
         }

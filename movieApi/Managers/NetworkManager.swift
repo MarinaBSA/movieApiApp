@@ -11,7 +11,7 @@ import UIKit
 class NetworkManager {
     static var baseURL =  "https://www.omdbapi.com/?apikey=b78d8af3"
     
-    func getAllMedia(withTitle title: String, fromYear year: Int?,fromPage page: Int, completion: @escaping (ApiResult?, CustomError?) -> Void ) {
+    static func getAllMedia(withTitle title: String, fromYear year: Int?,fromPage page: Int, completion: @escaping (ApiResult?, CustomError?) -> Void ) {
         DispatchQueue.global(qos: .background).async {
             let titleWithoutSpaces = title.replacingOccurrences(of: " ", with: "%20")
             let url = URL(string: "\(NetworkManager.baseURL)&s=\(titleWithoutSpaces)&page=\(page)")!
@@ -34,7 +34,7 @@ class NetworkManager {
         }
     }
     
-    func getMedia(id: String, completion: @escaping (Media?, CustomError?) -> ()) {
+    static func getMedia(id: String, completion: @escaping (Media?, CustomError?) -> ()) {
         DispatchQueue.global(qos: .background).async {
             let url = URL(string: "\(NetworkManager.baseURL)&i=\(id)")!
             
@@ -57,7 +57,7 @@ class NetworkManager {
     }
     
     
-    func getImage(mediaURL: String?, completion: @escaping (UIImage) -> Void) {
+    static func getImage(mediaURL: String?, completion: @escaping (UIImage) -> Void) {
         DispatchQueue.global(qos: .background).async {
             var image = UIImage()
             if let passedURL = mediaURL {

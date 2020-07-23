@@ -15,7 +15,6 @@ enum Section {
 class SearchViewController: UIViewController {
     
     let searchController = UISearchController()
-    let networkHandler = NetworkManager()
     var cells = [MediaItem]()
     var collection: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, MediaItem>!
@@ -120,7 +119,7 @@ class SearchViewController: UIViewController {
  
     func updateResults(searchText: String) {
         let spinner = view.startSpinner(nil)
-        networkHandler.getAllMedia(withTitle: searchText, fromYear: nil, fromPage: page) {
+        NetworkManager.getAllMedia(withTitle: searchText, fromYear: nil, fromPage: page) {
             [weak self] result, error in
             guard let self = self else { return }
             guard let apiResult = result, error == nil else {
@@ -160,7 +159,7 @@ extension SearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedMedia = cells[indexPath.item]
         let spinner = collectionView.cellForItem(at: indexPath)!.startSpinner(nil)
-        self.networkHandler.getMedia(id: selectedMedia.id) {
+        NetworkManager.getMedia(id: selectedMedia.id) {
             // must do a api call because there is no plot available after the initial api call for the searchVC(API Parameter 's' gives no plots back)
             [weak self] result, error in
             guard let self = self else { return }
