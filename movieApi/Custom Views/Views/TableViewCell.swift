@@ -22,7 +22,7 @@ class TableViewCell: UITableViewCell {
     
     
     private func configure() {
-        
+        accessoryType = .disclosureIndicator
     }
     
 }

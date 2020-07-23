@@ -112,7 +112,12 @@ class DetailViewController: UIViewController {
     private func configureFavouriteButton() {
         let favImage = UIImage(systemName: SFSymbols.favouriteMedia.rawValue)
         favouriteButton.setImage(favImage, for: .normal)
-        favouriteButton.tintColor = .systemYellow
+        
+        if let isFav = FavoritesManager.isFavorite(media: media) {
+            favouriteButton.tintColor = isFav ? .systemYellow : .systemGray
+            return
+        }
+        favouriteButton.tintColor = .systemGray
     }
     
     private func layoutCloseButton() {
@@ -206,6 +211,7 @@ class DetailViewController: UIViewController {
                 MovieApiAlertVC.showAlertHelper(title: "Error", message: passedError.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
             }
             MovieApiAlertVC.showAlertHelper(title: "Saved", message: Messages.savedAsFavorit.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
+            self.favouriteButton.tintColor = .systemYellow
             return
         }
     }

@@ -33,7 +33,7 @@ class FavoritesViewController: UITableViewController {
                 dataSource.favorites = favs
                 tableView.reloadData()
             case .failure(let error):
-                MovieApiAlertVC.showAlertHelper(title: "Error", message: error.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
+                MovieApiAlertVC.showAlertHelper(title: "Favorites", message: error.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
         }
     }
     
