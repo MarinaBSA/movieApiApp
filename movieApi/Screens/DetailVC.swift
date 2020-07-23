@@ -58,6 +58,7 @@ class DetailViewController: UIViewController {
         layoutYearLabel()
         layoutPlotLabel()
         layoutFavouriteButton()
+        
     }
     
     private func configureYearLabel() {
@@ -71,11 +72,13 @@ class DetailViewController: UIViewController {
     private func configurePlotLabel() {
       if let plot = media.plot {
             plotLabel.text = plot
+            plotLabel.isEditable = false
             plotLabel.adjustsFontForContentSizeCategory = true
             plotLabel.isScrollEnabled = true
             plotLabel.showsVerticalScrollIndicator = true
             plotLabel.font = UIFont.preferredFont(forTextStyle: .title3)
             plotLabel.textColor = .label
+            
         }
     }
     
@@ -84,7 +87,7 @@ class DetailViewController: UIViewController {
             setImage()
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.clipsToBounds = true
-            imageView.contentMode = .center
+            imageView.contentMode = .scaleAspectFit
             imageView.layer.masksToBounds = true
             imageView.backgroundColor = .secondarySystemBackground
             
@@ -191,11 +194,19 @@ class DetailViewController: UIViewController {
     }
     
     @objc private func dismissDetailVC() {
-        dismiss(animated: true)
+        dismiss(animated: true) 
     }
     
     @objc private func addToFavourite(){
         #warning("Show pop up on the bottom that says -> 'Added this media to favourites' and disappears")
-        //FavoritesManager.setFavorite(<#T##self: FavoritesManager##FavoritesManager#>)
+        FavoritesManager.setFavorite(media: media) {
+            [weak self] error in
+            guard let self = self else { return }
+            if let passedError = error {
+                MovieApiAlertVC.showAlertHelper(title: "Error", message: passedError.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
+            }
+            MovieApiAlertVC.showAlertHelper(title: "Saved", message: Messages.savedAsFavorit.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
+            return
+        }
     }
 }

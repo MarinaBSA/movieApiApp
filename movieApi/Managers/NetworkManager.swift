@@ -6,13 +6,12 @@
 //  Copyright © 2020 Marina Beatriz Santana de Aguiar. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class NetworkManager {
     static var baseURL =  "https://www.omdbapi.com/?apikey=b78d8af3"
     
-    
-    func getAllMedia(withTitle title: String, fromYear year: Int?,fromPage page: Int, completion: @escaping (ApiResult?, NetworkError?) -> Void ) {
+    func getAllMedia(withTitle title: String, fromYear year: Int?,fromPage page: Int, completion: @escaping (ApiResult?, CustomError?) -> Void ) {
         DispatchQueue.global(qos: .background).async {
             let url = URL(string: "\(NetworkManager.baseURL)&s=\(title)&page=\(page)")!
             
@@ -25,16 +24,16 @@ class NetworkManager {
                 } catch {
                     print(error as Any)
                     print("Cannot decode JSON. Error: \(error.localizedDescription)")
-                    completion(nil, NetworkError.jsonDecoding)
+                    completion(nil, CustomError.searchNotFound)
                 }
             } catch {
                 print("Cannot get movies' information. Error: \(error.localizedDescription)")
-                completion(nil, NetworkError.internetConnection)
+                completion(nil, CustomError.internetConnection)
             }
         }
     }
     
-    func getMedia(id: String, completion: @escaping (Media?, NetworkError?) -> ()) {
+    func getMedia(id: String, completion: @escaping (Media?, CustomError?) -> ()) {
         DispatchQueue.global(qos: .background).async {
             let url = URL(string: "\(NetworkManager.baseURL)&i=\(id)")!
             
@@ -47,12 +46,39 @@ class NetworkManager {
                 } catch {
                     print(error as Any)
                     print("Cannot decode JSON. Error: \(error.localizedDescription)")
-                    completion(nil, NetworkError.jsonDecoding)
+                    completion(nil, CustomError.getMedia)
                 }
             } catch {
                 print("Cannot get this movie's information. Error: \(error.localizedDescription)")
-                completion(nil, NetworkError.internetConnection)
+                completion(nil, CustomError.internetConnection)
             }
+        }
+    }
+    
+    
+    func getImage(mediaURL: String?, completion: @escaping (UIImage) -> Void) {
+        DispatchQueue.global(qos: .background).async {
+            var image = UIImage()
+            if let passedURL = mediaURL {
+                if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: passedURL)) {
+                    // image already cached -- get it from the cache
+                    image = cachedImage
+                }
+                // image not cached -- cache it
+                if let imageURL = URL(string: passedURL) {
+                    do {
+                        let data = try Data(contentsOf: imageURL)
+                        if let compressedImageData = UIImage(data: data)?.jpegData(compressionQuality: 0.5), let compressedImage = UIImage(data: compressedImageData) {
+                            SearchViewController.imageCache.setObject(compressedImage, forKey: NSString(string: passedURL))
+                            image = UIImage(data: compressedImageData)!
+                        }
+                    } catch {
+                        print("Cannot get image from url. Error: \(error.localizedDescription)")
+                        image = UIImage(systemName: Images.placeholder.rawValue)!
+                    }
+                }
+            }
+            completion(image)
         }
     }
     

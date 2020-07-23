@@ -8,11 +8,15 @@
 
 import UIKit
 
-struct MediaItem: Hashable {
+struct MediaItem: Hashable, Codable {
     let title: String
     let plot: String?
     let year: String?
     let id: String
     let uuid = UUID()
     let poster: String?
+    
+    static func ==(lsh: MediaItem, rhs: MediaItem) -> Bool {
+        return lsh.id == rhs.id
+    }
 }
