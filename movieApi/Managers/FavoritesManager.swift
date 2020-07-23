@@ -64,6 +64,18 @@ class FavoritesManager {
         }
     }
     
+    static func updateFavorites(with newFavorites: [MediaItem], completion: @escaping (CustomError?) -> Void) {
+        let jsonEncoder = JSONEncoder()
+                
+        do {
+            let data = try jsonEncoder.encode(newFavorites)
+            FavoritesManager.defaults.set(data, forKey: FavoritesManager.key)
+            completion(nil)
+        } catch {
+            completion(.updateFavorites)
+        }
+    }
+    
     static func isFavorite(media: MediaItem) -> Bool? {
         let favorites = FavoritesManager.getFavorites()
         switch favorites {

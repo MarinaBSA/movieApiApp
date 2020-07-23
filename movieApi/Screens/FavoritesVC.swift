@@ -16,6 +16,9 @@ class FavoritesViewController: UITableViewController {
         title = "Favorites"
         tableView.dataSource = dataSource
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.reuseID)
+        let removeButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeAllFavorites))
+        removeButton.tintColor = UIColor.label
+        navigationItem.rightBarButtonItem = removeButton
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,5 +43,29 @@ class FavoritesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         present(DetailViewController(media: dataSource.favorites[indexPath.row], nibName: nil, bundle: nil), animated: true)
+    }
+    
+    
+    @objc private func removeAllFavorites() {
+        guard !dataSource.favorites.isEmpty else { return }
+        showRemoveAlert()
+    }
+    
+    private func showRemoveAlert() {
+        let alert = UIAlertController(title: "Warning", message: "Do you want to delete all your saved favorites?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .destructive) {
+            [weak self] _ in
+            self?.dataSource.favorites.removeAll()
+            FavoritesManager.updateFavorites(with: []) {
+                [weak self] error in
+                guard let passedError = error else {
+                    self?.tableView.reloadData()
+                    return
+                }
+                print(passedError.rawValue)
+            }
+        })
+        alert.addAction(UIAlertAction(title: "No", style: .cancel))
+        present(alert, animated: true)
     }
 }

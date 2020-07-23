@@ -14,4 +14,5 @@ enum CustomError: String, Error {
     case getMedia = "Cannot find this media for some reason. Try later again."
     case showFavorites = "Could show your favorites. Sorry, try later again."
     case alreadyFavorite = "This media is already set as one of your favorites."
+    case updateFavorites = "Could not update your favorites. Try later again or contact us."
 }

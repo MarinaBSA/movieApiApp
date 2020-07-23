@@ -28,12 +28,18 @@ class TableViewDataSource: NSObject, UITableViewDataSource {
         return cell
     }
     
-    #warning("fix this")
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard editingStyle == .delete else { return }
+        guard editingStyle == .delete, !favorites.isEmpty else { return }
         favorites.remove(at: indexPath.row)
-        FavoritesManager.defaults.removeObject(forKey: "movie-\(indexPath.row)")
-        tableView.deleteRows(at: [indexPath], with: .automatic)
+        FavoritesManager.updateFavorites(with: favorites) {
+            error in
+            guard let passedError = error else {
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+                return
+            }
+            print(passedError.rawValue)
+        }
+        
     }
     
 }
