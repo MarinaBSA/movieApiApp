@@ -55,6 +55,10 @@ class CollectionViewCell: UICollectionViewCell {
     
     func setLabels(media: MediaItem) {
         self.media = media
+        if let media = self.media, let isFav = FavoritesManager.isFavorite(media: media) {
+            titleLabel.textColor = isFav ? .systemYellow : .label
+            yearLabel.textColor = isFav ? .systemYellow : .label
+        }
         guard spinner != nil else { print("No Spinner"); return }
         if let passedURL = media.poster {
             if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: passedURL)) {

@@ -189,7 +189,8 @@ class DetailViewController: UIViewController {
     }
     
     @objc private func dismissDetailVC() {
-        dismiss(animated: true) 
+        dismiss(animated: true)
+        
     }
     
     @objc private func addToFavourite() {

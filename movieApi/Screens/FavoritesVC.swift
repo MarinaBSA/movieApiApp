@@ -31,11 +31,11 @@ class FavoritesViewController: UITableViewController {
         let allFavorites = FavoritesManager.getFavorites()
         switch allFavorites {
             case .success(let favorites):
-                guard let favs = favorites else {
+                guard let favs = favorites, !favs.isEmpty else {
                     MovieApiAlertViewController.showAlertHelper(title: "Favorites", message: Messages.noFavorites.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
                     return
                 }
-                dataSource.favorites = favs
+                dataSource.favorites = favs.sorted(by: {return $0.title < $1.title})
                 tableView.reloadData()
             case .failure(let error):
                 MovieApiAlertViewController.showAlertHelper(title: "Favorites", message: error.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
@@ -47,7 +47,7 @@ class FavoritesViewController: UITableViewController {
         switch allFavorites {
             case .success(let favorites):
                 if let favs = favorites {
-                    dataSource.favorites = favs
+                    dataSource.favorites = favs.sorted(by: {return $0.title < $1.title})
                     tableView.reloadData()
                 }
             case .failure(let error):
