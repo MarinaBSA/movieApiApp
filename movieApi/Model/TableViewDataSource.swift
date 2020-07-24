@@ -19,7 +19,8 @@ class TableViewDataSource: NSObject, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseID, for: indexPath) as! TableViewCell
         let fav = favorites[indexPath.row]
         cell.textLabel?.text = fav.title
-         NetworkManager.getImage(mediaURL: fav.poster) {
+        //NetworkManager.getImage(mediaURL: fav.poster) {
+        NetworkManager.getImage(media: fav) {
             image in
             DispatchQueue.main.async {
                 cell.imageView?.image = image

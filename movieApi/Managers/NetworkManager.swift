@@ -56,30 +56,34 @@ class NetworkManager {
         }
     }
     
-    
-    static func getImage(mediaURL: String?, completion: @escaping (UIImage) -> Void) {
+    static func getImage(media: MediaItem, completion: @escaping (UIImage) -> Void) {
         DispatchQueue.global(qos: .background).async {
             var image = UIImage()
-            if let passedURL = mediaURL {
-                if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: passedURL)) {
+            if let passedURL = media.poster {
+                //if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: passedURL)) {
+                if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: media.id)) {
                     // image already cached -- get it from the cache
                     image = cachedImage
+                    completion(image)
+                    return
                 }
                 // image not cached -- cache it
                 if let imageURL = URL(string: passedURL) {
                     do {
                         let data = try Data(contentsOf: imageURL)
                         if let compressedImageData = UIImage(data: data)?.jpegData(compressionQuality: 0.5), let compressedImage = UIImage(data: compressedImageData) {
-                            SearchViewController.imageCache.setObject(compressedImage, forKey: NSString(string: passedURL))
+                            SearchViewController.imageCache.setObject(compressedImage, forKey: NSString(string: media.id))
                             image = UIImage(data: compressedImageData)!
+                            
                         }
                     } catch {
                         print("Cannot get image from url. Error: \(error.localizedDescription)")
                         image = UIImage(systemName: Images.placeholder.rawValue)!
                     }
+                    completion(image)
+                    return
                 }
             }
-            completion(image)
         }
     }
     

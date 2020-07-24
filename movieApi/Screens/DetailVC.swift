@@ -172,23 +172,20 @@ class DetailViewController: UIViewController {
     }
     
     private func setImage() {
-        if let passedURL = media.poster {
-            if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: passedURL)) {
-                // image already cached -- get it from the cache
-                imageView.image = cachedImage
-                return
-            }
-            // image not cached -- cache it
-            NetworkManager.getImage(mediaURL: passedURL) {
-                [weak self]
-                image in
-                DispatchQueue.main.async {
-                    self?.imageView.image = image
-                }
+        if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: media.id)) {
+            // image already cached -- get it from the cache
+            imageView.image = cachedImage
+            return
+        }
+        // image not cached -- cache it
+        NetworkManager.getImage(media: media) {
+            [weak self] image in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.imageView.image = image
+                self.imageView.tintColor = .label
             }
         }
-        imageView.image = UIImage(systemName: Images.placeholder.rawValue)
-        imageView.tintColor = .label
     }
     
     @objc private func dismissDetailVC() {
@@ -203,7 +200,7 @@ class DetailViewController: UIViewController {
                 MovieApiAlertViewController.showAlertHelper(title: "Error", message: passedError.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
                 return
             }
-            self.view.addSubview(ToastView(text: Messages.savedAsFavorit.rawValue, parentView: self.view, frame: .zero))
+            self.view.showToast(message: Messages.savedAsFavorit.rawValue)
             self.favouriteButton.tintColor = .systemYellow
         }
     }

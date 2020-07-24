@@ -15,6 +15,8 @@ enum Section {
 class SearchViewController: UIViewController {
     
     let searchController = UISearchController()
+    let maxAPIResult = 10
+    var noMoreResults = false
     var cells = [MediaItem]()
     var collection: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, MediaItem>!
@@ -81,7 +83,9 @@ class SearchViewController: UIViewController {
                 fatalError("Cannot dequeue custom cell")
             }
             cell.spinner = cell.startSpinner(nil)
-            cell.setLabels(title: media.title, year: media.year, imageURL: media.poster)
+            //cell.setLabels(title: media.title, year: media.year, imageURL: media.poster)
+            cell.setLabels(media: media)
+
             return cell
         })
     }
@@ -118,6 +122,7 @@ class SearchViewController: UIViewController {
     }
  
     func updateResults(searchText: String) {
+        guard !noMoreResults else { self.tabBarController?.view.showToast(message: "No more items");return }
         let spinner = view.startSpinner(nil)
         NetworkManager.getAllMedia(withTitle: searchText, fromYear: nil, fromPage: page) {
             [weak self] result, error in
@@ -130,6 +135,9 @@ class SearchViewController: UIViewController {
                 return
             }
             DispatchQueue.main.sync {
+                if let resultsAmount = Int(apiResult.totalResults), resultsAmount < self.maxAPIResult {
+                    self.noMoreResults = true
+                }
                 self.title = "Results"
                 self.showMedia(media: apiResult.Search)
                 spinner.stopAnimating()
@@ -160,7 +168,7 @@ extension SearchViewController: UICollectionViewDelegate {
         let selectedMedia = cells[indexPath.item]
         let spinner = collectionView.cellForItem(at: indexPath)!.startSpinner(nil)
         NetworkManager.getMedia(id: selectedMedia.id) {
-            // must do a api call because there is no plot available after the initial api call for the searchVC(API Parameter 's' gives no plots back)
+            // must do an api call because there is no plot available after the initial api call for the searchVC(API Parameter 's' gives no plots back)
             [weak self] result, error in
             guard let self = self else { return }
             guard let apiResult = result, error == nil else {

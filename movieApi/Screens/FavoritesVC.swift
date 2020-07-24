@@ -12,18 +12,19 @@ class FavoritesViewController: UITableViewController {
     let dataSource = TableViewDataSource()
     
     override func viewDidLoad() {
-        #warning("add button on top to delete all favs")
         title = "Favorites"
         tableView.dataSource = dataSource
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.reuseID)
         let removeButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeAllFavorites))
         removeButton.tintColor = UIColor.label
         navigationItem.rightBarButtonItem = removeButton
+        
+        setupFavorites()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        setupFavorites()
+        showFavorites()
     }
     
     private func setupFavorites() {
@@ -41,11 +42,24 @@ class FavoritesViewController: UITableViewController {
         }
     }
     
+    private func showFavorites() {
+        let allFavorites = FavoritesManager.getFavorites()
+        switch allFavorites {
+            case .success(let favorites):
+                if let favs = favorites {
+                    dataSource.favorites = favs
+                    tableView.reloadData()
+                }
+            case .failure(let error):
+                MovieApiAlertViewController.showAlertHelper(title: "Favorites", message: error.rawValue, confirmationButtonText: "Ok", cancelButtonText: nil, viewController: self)
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         present(DetailViewController(media: dataSource.favorites[indexPath.row], nibName: nil, bundle: nil), animated: true)
     }
     
-    
+        
     @objc private func removeAllFavorites() {
         guard !dataSource.favorites.isEmpty else { return }
         showRemoveAlert()

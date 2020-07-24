@@ -21,5 +21,10 @@ extension UIView {
         spinner.startAnimating()
         return spinner
     }
+    
+    func showToast(message: String) {
+        let toast = ToastView(text: message, parentView: self, frame: self.frame)
+        self.addSubview(toast)
+    }
      
 }

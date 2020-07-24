@@ -74,6 +74,7 @@
 		F169F6E424C2265000CA3870 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F14EC53C24CA2771001246BE /* ToastView.swift */,
 				F1B1CB0A24BE617A00C0E7FD /* CollectionViewCell.swift */,
 				F18B25C124C62D81000DF91E /* TableViewCell.swift */,
 			);
@@ -85,7 +86,6 @@
 			children = (
 				F169F6E224C2086700CA3870 /* MovieApiAlertViewController.swift */,
 				F18B25B924C52E4A000DF91E /* MovieApiTabBarController.swift */,
-				F14EC53C24CA2771001246BE /* ToastView.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";

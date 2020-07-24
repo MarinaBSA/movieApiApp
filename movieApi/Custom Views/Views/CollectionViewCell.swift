@@ -11,6 +11,7 @@ import UIKit
 class CollectionViewCell: UICollectionViewCell {
     static let reuseID = "Cell"
     
+    var media: MediaItem?
     var title: String! {
         didSet {
             titleLabel.text = title
@@ -52,32 +53,28 @@ class CollectionViewCell: UICollectionViewCell {
         layoutImageView()
     }
     
-    func setLabels(title: String, year: String?, imageURL: String?) {
+    func setLabels(media: MediaItem) {
+        self.media = media
         guard spinner != nil else { print("No Spinner"); return }
-        if let passedURL = imageURL {
+        if let passedURL = media.poster {
             if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: passedURL)) {
                 // image already cached
                 imageView.image = cachedImage
                 spinner.stopAnimating()
-                self.title = title
-                self.year = year ?? "Unknown"
+                self.title = media.title
+                self.year = media.year ?? "Unknown"
                 return
             }
             // image not cached -- cache it
-            getImage(fromURL: passedURL) {
-                [weak self] compressedImage in
+            NetworkManager.getImage(media: media) {
+                [weak self] image in
                 guard let self = self else { return }
                 DispatchQueue.main.sync {
-                    guard let image = compressedImage  else {
-                        self.imageView.image = UIImage(systemName: Images.placeholder.rawValue)
-                        self.imageView.tintColor = .label
-                        self.spinner.stopAnimating()
-                        return
-                    }
                     self.imageView.image = image
-                    self.title = title
-                    self.year = year ?? "Unknown"
+                    self.imageView.tintColor = .label
                     self.spinner.stopAnimating()
+                    self.title = media.title
+                    self.year = media.year ?? "Unknown"
                 }
             }
         }
