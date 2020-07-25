@@ -60,7 +60,6 @@ class NetworkManager {
         DispatchQueue.global(qos: .background).async {
             var image = UIImage()
             if let passedURL = media.poster {
-                //if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: passedURL)) {
                 if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: media.id)) {
                     // image already cached -- get it from the cache
                     image = cachedImage

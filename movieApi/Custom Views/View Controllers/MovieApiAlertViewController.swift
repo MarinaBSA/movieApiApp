@@ -136,7 +136,6 @@ class MovieApiAlertViewController: UIViewController {
         dismiss(animated: true)
     }
 
-
     private func currentInterfaceStyleIsDark() -> Bool {
         switch traitCollection.userInterfaceStyle {
             case .dark:
@@ -150,5 +149,4 @@ class MovieApiAlertViewController: UIViewController {
         let alertVC = MovieApiAlertViewController(withTitle: title, withMessage: message, withConfirmationButtonText: confirmationButtonText, withCancelButtonText: cancelButtonText)
         viewController.present(alertVC, animated: true)
     }
-
 }

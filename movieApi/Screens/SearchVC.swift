@@ -83,7 +83,6 @@ class SearchViewController: UIViewController {
                 fatalError("Cannot dequeue custom cell")
             }
             cell.spinner = cell.startSpinner(nil)
-            //cell.setLabels(title: media.title, year: media.year, imageURL: media.poster)
             cell.setLabels(media: media)
 
             return cell
@@ -153,7 +152,6 @@ class SearchViewController: UIViewController {
             guard let self = self else { return }
             self.cells.removeAll(keepingCapacity: true)
             
-            //if let media = dataSource.itemIdentifier(for: IndexPath) {} -> gives me the MediaItem on this indexPath
             self.snapshot.deleteAllItems()
             self.updateCollectionView()
         })
@@ -168,7 +166,7 @@ extension SearchViewController: UICollectionViewDelegate {
         let selectedMedia = cells[indexPath.item]
         let spinner = collectionView.cellForItem(at: indexPath)!.startSpinner(nil)
         NetworkManager.getMedia(id: selectedMedia.id) {
-            // must do an api call because there is no plot available after the initial api call for the searchVC(API Parameter 's' gives no plots back)
+            // must do an api call because there is no plot available after the initial api call for the searchVC(API Parameter 's' gives no plot back)
             [weak self] result, error in
             guard let self = self else { return }
             guard let apiResult = result, error == nil else {
