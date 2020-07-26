@@ -12,7 +12,7 @@ It fetches its data from the [OMDb API](https://www.omdbapi.com) which is free t
 
 ## About me 
 Hello there!  I'm **Marina** and I'm currently learning iOS Development.  
-I built this app in order to practice what I've learned from [@SeanAllen](https://github.com/sallen0400)'s Take Home Project Course .
+I built this app in order to practice what I've learned from Sean Allen's [@SeanAllen](https://github.com/sallen0400) Take Home Project Course. 
 
 This app is built 100% programmatically which means *no storyboards* and it also uses *UIKit*.  
 
