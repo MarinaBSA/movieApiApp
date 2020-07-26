@@ -8,6 +8,8 @@ An app where users can search for movies/shows/eps and save their favorite ones 
 
 It fetches its data from the [OMDb API](https://www.omdbapi.com) which is free to use.
 
+[Show me the app already](#app_pictures)
+
 ## About me 
 Hello there!  I'm **Marina** and I'm currently learning iOS Development.  
 I built this app in order to practice what I've learned from [@SeanAllen](https://github.com/sallen0400)'s Take Home Project Course .
@@ -42,7 +44,7 @@ No. I will keep on updating it as soon as I learn more concepts that are applica
 * A lot of escaping closures
 
 
-## Structure
+##<a name="app_pictures"></a> Structure
 ![Homescreen on dark mode](https://github.com/MarinaBSA/movieApiApp/blob/master/movieapi_assets/movieapi_dark_homescreen.png)
 ![Homescreen on light mode](https://github.com/MarinaBSA/movieApiApp/blob/master/movieapi_assets/movieapi_light_homescreen.png)
 
