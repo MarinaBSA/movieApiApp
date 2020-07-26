@@ -43,8 +43,7 @@ No. I will keep on updating it as soon as I learn more concepts that are applica
 * MVC (kinda)
 * A lot of escaping closures
 
-
-##<a name="app_pictures"></a> Structure
+## Structure <a name="app_pictures"></a>
 ![Homescreen on dark mode](https://github.com/MarinaBSA/movieApiApp/blob/master/movieapi_assets/movieapi_dark_homescreen.png)
 ![Homescreen on light mode](https://github.com/MarinaBSA/movieApiApp/blob/master/movieapi_assets/movieapi_light_homescreen.png)
 
