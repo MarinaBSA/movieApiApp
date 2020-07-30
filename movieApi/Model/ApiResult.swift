@@ -9,8 +9,13 @@
 import Foundation
 
 struct ApiResult: Codable {
-    #warning("change variables cases")
-    var Search: [Media]
+    var search: [Media]
     var totalResults: String
-    var Response: String
+    var response: String
+    
+    enum CodingKeys: String, CodingKey {
+        case search = "Search"
+        case totalResults
+        case response = "Response"
+    }
 }

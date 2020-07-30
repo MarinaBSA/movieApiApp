@@ -9,10 +9,21 @@
 import UIKit
 
 struct Media: Codable {
-    #warning("change variables cases")
-    let Title: String
-    let Year: String
-    let imdbID: String
-    let Poster: String?
-    let Plot: String?
+    let title: String
+    let year: String
+    let imdbId: String
+    let poster: String?
+    let plot: String?
+    
+    // This enum MUST be called CodingKeys, if it has any over name this won't work
+    // when the data gets decoded from json to this struct the CodingKeys are used
+    // so keys of the json file must match this struct's properties
+    // wherever it says 'title' will be transformed to 'Title' -- so the keys match 
+    enum CodingKeys: String, CodingKey {
+        case title = "Title"
+        case year = "Year"
+        case imdbId = "imdbID"
+        case poster = "Poster"
+        case plot = "Plot"
+    }
 }

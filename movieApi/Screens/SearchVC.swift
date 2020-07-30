@@ -110,7 +110,7 @@ class SearchViewController: UIViewController {
     }
     
     private func showMedia(media: [Media]) {
-        let newCells = media.map({ MediaItem(title: $0.Title, plot: nil, year: $0.Year, id: $0.imdbID, poster: $0.Poster) })
+        let newCells = media.map({ MediaItem(title: $0.title, plot: nil, year: $0.year, id: $0.imdbId, poster: $0.poster) })
         if page == 1 {
             cells = newCells
         } else {
@@ -138,7 +138,7 @@ class SearchViewController: UIViewController {
                     self.noMoreResults = true
                 }
                 self.title = "Results"
-                self.showMedia(media: apiResult.Search)
+                self.showMedia(media: apiResult.search)
                 spinner.stopAnimating()
             }
         }
@@ -151,7 +151,6 @@ class SearchViewController: UIViewController {
             [weak self] _ in
             guard let self = self else { return }
             self.cells.removeAll(keepingCapacity: true)
-            
             self.snapshot.deleteAllItems()
             self.updateCollectionView()
         })
@@ -177,7 +176,9 @@ extension SearchViewController: UICollectionViewDelegate {
                 return
             }
             DispatchQueue.main.async {
-                let mediaItem = MediaItem(title: apiResult.Title, plot: apiResult.Plot, year: apiResult.Year, id: apiResult.imdbID, poster: apiResult.Poster)
+                //let mediaItem = MediaItem(title: apiResult.Title, plot: apiResult.Plot, year: apiResult.Year, id: apiResult.imdbID, poster: apiResult.Poster)
+                let mediaItem = MediaItem(title: apiResult.title, plot: apiResult.plot, year: apiResult.year, id: apiResult.imdbId, poster: apiResult.poster)
+
                 let vc = DetailViewController(media: mediaItem, nibName: nil, bundle: nil)
                 vc.modalTransitionStyle = .crossDissolve
                 self.present(vc, animated: true)
