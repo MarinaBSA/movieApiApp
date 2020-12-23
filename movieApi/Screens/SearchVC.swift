@@ -176,7 +176,6 @@ extension SearchViewController: UICollectionViewDelegate {
                 return
             }
             DispatchQueue.main.async {
-                //let mediaItem = MediaItem(title: apiResult.Title, plot: apiResult.Plot, year: apiResult.Year, id: apiResult.imdbID, poster: apiResult.Poster)
                 let mediaItem = MediaItem(title: apiResult.title, plot: apiResult.plot, year: apiResult.year, id: apiResult.imdbId, poster: apiResult.poster)
 
                 let vc = DetailViewController(media: mediaItem, nibName: nil, bundle: nil)

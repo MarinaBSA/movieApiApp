@@ -13,7 +13,10 @@ struct MediaItem: Hashable, Codable {
     let plot: String?
     let year: String?
     let id: String
-    let uuid = UUID()
+    // let uuid = UUID() -->
+    // Immutable property will not be decoded
+    // because it is declared with an initial value which cannot be overwritten
+    var uuid = UUID()
     let poster: String?
     
     static func ==(lsh: MediaItem, rhs: MediaItem) -> Bool {

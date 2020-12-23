@@ -5,6 +5,8 @@
 //  Created by Marina Beatriz Santana de Aguiar on 14.07.20.
 //  Copyright © 2020 Marina Beatriz Santana de Aguiar. All rights reserved.
 //
+//BUGS:
+// Search for "fff" then search for "paris" -> no more items
 
 import UIKit
 
@@ -39,28 +41,31 @@ class CollectionViewCell: UICollectionViewCell {
     
     private func configure() {
         backgroundColor = .secondarySystemBackground
-        addSubview(imageView)
-        addSubview(titleLabel)
-        addSubview(yearLabel)
+        
+        contentView.addSubview(imageView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(yearLabel)
         
         configureTitleLabel()
         configureYearLabel()
         configureImageView()
         configureContentView()
-                
+        
         layoutTitleLabel()
         layoutYearLabel()
         layoutImageView()
     }
-    
     func setLabels(media: MediaItem) {
         self.media = media
-        if let media = self.media, let isFav = FavoritesManager.isFavorite(media: media) {
+        
+        // Set as favorite
+        if let isFav = FavoritesManager.isFavorite(media: media), let _ = self.media {
             titleLabel.textColor = isFav ? .systemYellow : .label
             yearLabel.textColor = isFav ? .systemYellow : .label
         }
-        guard spinner != nil else { print("No Spinner"); return }
+        guard spinner != nil else { fatalError("No Spinner") }
         if let passedURL = media.poster {
+            // TODO Use NetworkManager.getImage and pass this to the completion handler
             if let cachedImage = SearchViewController.imageCache.object(forKey: NSString(string: passedURL)) {
                 // image already cached
                 imageView.image = cachedImage
@@ -75,6 +80,7 @@ class CollectionViewCell: UICollectionViewCell {
                 guard let self = self else { return }
                 DispatchQueue.main.sync {
                     self.imageView.image = image
+                    //self.imageView.image = UIImage(systemName: "pencil")
                     self.imageView.tintColor = .label
                     self.spinner.stopAnimating()
                     self.title = media.title
@@ -125,7 +131,7 @@ class CollectionViewCell: UICollectionViewCell {
     }
     
     private func configureContentView() {
-        contentView.layer.addSublayer(setupGradientLayer())
+        contentView.layer.insertSublayer(getGradientLayer(), at: 0)
         contentView.layer.borderWidth = 0.25
         contentView.layer.cornerRadius = 20
         contentView.layer.masksToBounds = true
@@ -156,7 +162,7 @@ class CollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    private func setupGradientLayer() -> CAGradientLayer {
+    private func getGradientLayer() -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = contentView.frame
         gradientLayer.colors = [UIColor.systemBackground.cgColor, UIColor.systemGray.cgColor]

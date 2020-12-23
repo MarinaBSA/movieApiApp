@@ -73,7 +73,6 @@ class NetworkManager {
                         if let compressedImageData = UIImage(data: data)?.jpegData(compressionQuality: 0.5), let compressedImage = UIImage(data: compressedImageData) {
                             SearchViewController.imageCache.setObject(compressedImage, forKey: NSString(string: media.id))
                             image = UIImage(data: compressedImageData)!
-                            
                         }
                     } catch {
                         print("Cannot get image from url. Error: \(error.localizedDescription)")
