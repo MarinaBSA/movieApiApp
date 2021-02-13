@@ -10,21 +10,7 @@ It fetches its data from the [OMDb API](https://www.omdbapi.com) which is free t
 
 [Show me the app already](#app_pictures)
 
-## About me 
-Hello there!  I'm **Marina** and I'm currently learning iOS Development.  
-I built this app in order to practice what I've learned from Sean Allen's [@SeanAllen](https://github.com/sallen0400) Take Home Project Course. 
-
 This app is built 100% programmatically which means *no storyboards* and it also uses *UIKit*.  
-
-### Why am I sharing?
-My purpose was and always is to learn and share.  
-This app may contain bugs. Well actually...  
-This app definitely has some bugs.  
-Feel free to use it and hit me up on [Twitter](http://twitter.com/MarinaAguiar07) if you find some bug lurking around or have any questions.
-
-### Is it finished?
-
-No. I will keep on updating it as soon as I learn more concepts that are applicable.
 
 ## What does it use?
 
